@@ -12,8 +12,8 @@ const connectToDatabase = require("./database");
 const configureCloudinary = require("./cloudinary");
 // const webRouter = require("../src/routes/webRouter");
 const webRouter = require("../src/features/web/route");
-// const adminRouter = require("../src/routes/adminRouter");
-const adminRouter = require("../src/features/admin/route");
+const adminRouter = require("../src/routes/adminRouter");
+const adminRouterV2 = require("../src/features/admin/route");
 const errorMiddleware = require("../src/middlewares/errorMiddleware");
 const { verifyApiKeyHeader } = require("../src/middlewares/userAuth");
 const getUserIpMiddleware = require("../src/middlewares/getUserIpMiddleware");
@@ -50,6 +50,7 @@ app.get("/", (req, res) => {
   res.send("Welcome to MahaScore Web Api!");
 });
 
+app.use("/api/v2/admin", verifyApiKeyHeader, adminRouterV2); // admin version 2
 app.use("/api/admin", verifyApiKeyHeader, adminRouter); // admin
 app.use("/api", verifyApiKeyHeader, webRouter); // web
 app.use("/v3/football/*", verifyApiKeyHeader, sportMonksV3Data); // web (football)

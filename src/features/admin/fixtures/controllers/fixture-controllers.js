@@ -1,3 +1,4 @@
+const { getPagination } = require("../../../../utils");
 const { sportMonkslUrl } = require("../../../../utils/getAxios");
 const Fixture = require("../models/Fixture");
 
@@ -73,6 +74,106 @@ exports.createSelectedFixtures = async(req, res) => {
 
     }catch(err){
         console.log("error occuring get all fixtures", err)
+        res.status(500).json({
+            status : false,
+            message : "something went wrong",
+        })
+    }
+}
+
+
+exports.getAllFixturesWithPagination = async(req, res) => {
+
+    const page = req?.query?.page;
+    const limit = req?.query?.limit;
+
+    try{
+
+        const fixtures = await Fixture.find().skip(page * limit - limit)
+        .limit(limit);
+
+        const totalItems = await Fixture.find().count();
+
+        const pagination = getPagination({ totalItems, limit, page });
+
+        res.status(200).json({
+            status : true,
+            message : "successfully retrieve fixtures data",
+            data : fixtures,
+            totalItems: pagination?.totalItems,
+            page: pagination.page,
+            limit: pagination?.limit,
+            hasNext: pagination?.next ? true : false,
+            hasPrev: pagination?.prev ? true : false
+        })
+
+    }catch(err){
+        console.log("error occuring get all fixtures", err)
+        res.status(500).json({
+            status : false,
+            message : "something went wrong",
+        })
+    }
+}
+
+exports.getFixtureById = async(req, res) => {
+    const fixtureId = req.params.id;
+
+    try{
+        const fixture = await Fixture.findById(fixtureId);
+
+        res.status(200).json({
+            status : true,
+            message : "successfully retrieve fixture data",
+            data : fixture,
+        })
+
+    }catch(err){
+        console.log("error occuring get fixture by id", err)
+        res.status(500).json({
+            status : false,
+            message : "something went wrong",
+        })
+    }
+
+}
+
+exports.updateFixtureById = async(req, res)=> {
+    const fixtureId = req.params.id;
+    const {name, status, matchType} = req.body
+
+    try{
+        const fixture = await Fixture.findByIdAndUpdate(fixtureId, {name, status, matchType});
+
+        res.status(200).json({
+            status : true,
+            message : "successfully updated fixture data",
+            data : fixture,
+        })
+
+    }catch(err){
+        console.log("error occuring update fixture", err)
+        res.status(500).json({
+            status : false,
+            message : "something went wrong",
+        })
+    }
+}
+
+exports.deleteFixtureById = async(req, res)=> {
+    const fixtureId = req.params.id;
+
+    try{
+        const fixture = await Fixture.deleteOne({_id : fixtureId});
+
+        res.status(200).json({
+            status : true,
+            message : "successfully deleted fixture data",
+            data : fixture,
+        })
+
+    }catch(err){
+        console.log("error occuring update fixture", err)
         res.status(500).json({
             status : false,
             message : "something went wrong",

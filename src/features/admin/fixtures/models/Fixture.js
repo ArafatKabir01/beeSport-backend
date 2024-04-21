@@ -29,7 +29,11 @@ const fixtureSchema = new Schema({
                 }
             
         }
-    ]
+    ],
+    status : {
+        type : String,
+        default : "1"
+    }
 }, {timestamps : true});
 
 const Fixture = new model('Fixture', fixtureSchema);
