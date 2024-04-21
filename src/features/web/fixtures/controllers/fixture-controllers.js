@@ -41,12 +41,12 @@ exports.getFixtureById = async(req, res) => {
     const fixtureId = req.params.id;
 
     try{
-        const fixture = await Fixture.findById(fixtureId);
+        const fixture = await Fixture.find({fixtureId});
 
         res.status(200).json({
             status : true,
             message : "successfully retrieve fixture data",
-            data : fixture,
+            data : fixture[0],
         })
 
     }catch(err){
