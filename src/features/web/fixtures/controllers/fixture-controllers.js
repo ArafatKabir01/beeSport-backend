@@ -35,3 +35,26 @@ exports.getAllFixtures = async(req, res) => {
         })
     }
 }
+
+
+exports.getFixtureById = async(req, res) => {
+    const fixtureId = req.params.id;
+
+    try{
+        const fixture = await Fixture.findById(fixtureId);
+
+        res.status(200).json({
+            status : true,
+            message : "successfully retrieve fixture data",
+            data : fixture,
+        })
+
+    }catch(err){
+        console.log("error occuring get fixture by id", err)
+        res.status(500).json({
+            status : false,
+            message : "something went wrong",
+        })
+    }
+
+}
