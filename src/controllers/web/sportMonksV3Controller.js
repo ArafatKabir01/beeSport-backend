@@ -73,6 +73,7 @@ async function sportMonksV3Data(req, res) {
       while (has_more) {
         const { data } = await sportMonkslUrl.get(`${urlEndpoint}?${urlQueryString}&page=${page}&per_page=50`);
 
+
         fixtures = fixtures.concat(data?.data);
         has_more = data.pagination.has_more;
         page++;

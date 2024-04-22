@@ -88,9 +88,31 @@ exports.getAllFixturesWithPagination = async(req, res) => {
     const limit = req?.query?.limit;
 
     try{
+        let groupByLeague = [];
 
         const fixtures = await Fixture.find().skip(page * limit - limit)
         .limit(limit);
+
+        const fixtureIds = fixtures?.map((item) => item.fixtureId);
+
+        let uniqueArr = Array.from(new Set(fixtureIds));
+
+        const fixtureResponse = await sportMonkslUrl.get(`/fixtures/multi/${uniqueArr?.join()}?include=league.country;round.stage;participants;state;scores;periods`);
+        
+        fixtureResponse?.data?.data.forEach((fixture) => {
+            const leagueIndex = groupByLeague.findIndex((league) => league.id === fixture.league.id);
+    
+            if (leagueIndex !== -1) {
+              groupByLeague[leagueIndex].fixtures.push(fixture);
+            } else {
+              groupByLeague.push({
+                id: fixture.league.id,
+                name: fixture.league.name,
+                image: fixture.league.image_path,
+                fixtures: [fixture]
+              });
+            }
+          });
 
         const totalItems = await Fixture.find().count();
 
@@ -98,8 +120,8 @@ exports.getAllFixturesWithPagination = async(req, res) => {
 
         res.status(200).json({
             status : true,
-            message : "successfully retrieve fixtures data",
-            data : fixtures,
+            message : "Group-Wise Fixture Data Fetched Successfully!",
+            data : groupByLeague,
             totalItems: pagination?.totalItems,
             page: pagination.page,
             limit: pagination?.limit,
@@ -108,7 +130,7 @@ exports.getAllFixturesWithPagination = async(req, res) => {
         })
 
     }catch(err){
-        console.log("error occuring get all fixtures", err)
+        console.log("error occuring get all fixtures")
         res.status(500).json({
             status : false,
             message : "something went wrong",
@@ -117,10 +139,10 @@ exports.getAllFixturesWithPagination = async(req, res) => {
 }
 
 exports.getFixtureById = async(req, res) => {
-    const fixtureId = req.params.id;
+    const fixtureId = parseInt(req.params.id);
 
     try{
-        const fixture = await Fixture.findById(fixtureId);
+        const fixture = await Fixture.findOne({fixtureId});
 
         res.status(200).json({
             status : true,
@@ -143,7 +165,7 @@ exports.updateFixtureById = async(req, res)=> {
     const {name, status, matchType} = req.body
 
     try{
-        const fixture = await Fixture.findByIdAndUpdate(fixtureId, {name, status, matchType});
+        const fixture = await Fixture.findOneAndUpdate({fixtureId}, {name, status, matchType});
 
         res.status(200).json({
             status : true,
@@ -164,7 +186,7 @@ exports.deleteFixtureById = async(req, res)=> {
     const fixtureId = req.params.id;
 
     try{
-        const fixture = await Fixture.deleteOne({_id : fixtureId});
+        const fixture = await Fixture.deleteOne({fixtureId});
 
         res.status(200).json({
             status : true,
