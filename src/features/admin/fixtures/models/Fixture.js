@@ -1,5 +1,5 @@
 const {Schema, model} = require('mongoose');
-
+const mongoose = require('mongoose');
 
 const fixtureSchema = new Schema({
     name : {
@@ -33,7 +33,13 @@ const fixtureSchema = new Schema({
     status : {
         type : String,
         default : "1"
-    }
+    },
+    streaming_sources: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Stream"
+        }
+      ]
 }, {timestamps : true});
 
 const Fixture = new model('Fixture', fixtureSchema);
