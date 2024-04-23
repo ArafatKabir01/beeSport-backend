@@ -9,7 +9,7 @@ exports.getAllFixtures = async(req, res) => {
 
     try{
 
-        const fixtures = await Fixture.find().skip(page * limit - limit)
+        const fixtures = await Fixture.find().populate('streaming_sources').skip(page * limit - limit)
         .limit(limit);
 
         const totalItems = await Fixture.find().count();
@@ -41,7 +41,7 @@ exports.getFixtureById = async(req, res) => {
     const fixtureId = req.params.id;
 
     try{
-        const fixture = await Fixture.find({fixtureId});
+        const fixture = await Fixture.find({fixtureId}).populate('streaming_sources');
 
         res.status(200).json({
             status : true,

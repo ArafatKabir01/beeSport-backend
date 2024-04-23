@@ -3,16 +3,16 @@ const mongoose = require("mongoose");
 const streamSchema = new mongoose.Schema({
   matchId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "LiveMatch"
+    ref: "Fixture"
   },
   id: {
     type: Number,
     required: true,
     unique: true
   },
-  match_id: {
-    type: Number
-  },
+  // match_id: {
+  //   type: Number
+  // },
   stream_title: {
     type: String,
     required: true
