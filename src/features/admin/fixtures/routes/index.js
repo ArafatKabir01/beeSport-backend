@@ -5,7 +5,7 @@ const router = require('express').Router();
 
 router.get('/byDate', getAllFixtures);
 router.get('/:id', getFixtureById);
-router.patch('/:id', updateFixtureById);
+router.put('/:id', updateFixtureById);
 router.patch('/refreash/:id', refreashFixtureById);
 router.delete('/:id', deleteFixtureById);
 router.get('/', getAllFixturesWithPagination);

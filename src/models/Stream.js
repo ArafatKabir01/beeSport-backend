@@ -10,9 +10,9 @@ const streamSchema = new mongoose.Schema({
     required: true,
     unique: true
   },
-  // match_id: {
-  //   type: Number
-  // },
+  fixture_id: {
+    type: Number
+  },
   stream_title: {
     type: String,
     required: true

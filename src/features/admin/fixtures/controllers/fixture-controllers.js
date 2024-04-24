@@ -1,6 +1,6 @@
 const Stream = require("../../../../models/Stream");
 const { createStreaming } = require("../../../../services/matchServices");
-const { getPagination, generateRandomId } = require("../../../../utils");
+const { getPagination, generateRandomId, getPublicId } = require("../../../../utils");
 const { sportMonkslUrl } = require("../../../../utils/getAxios");
 const Fixture = require("../models/Fixture");
 const multer = require("multer");
@@ -133,6 +133,7 @@ exports.createSelectedFixtures = async(req, res) => {
               const newStream = new Stream({
                 id: generateRandomId(15),
                 matchId: newFixture._id,
+                fixture_id : fixtureResponse?.data?.data?.id,
                 ...streamData
               });
     
@@ -269,25 +270,155 @@ exports.refreashFixtureById = async(req, res) => {
 }
 
 exports.updateFixtureById = async(req, res)=> {
-    const fixtureId = req.params.id;
-    const {name, status, matchType} = req.body
+  try {
 
-    try{
-        const fixture = await Fixture.findOneAndUpdate({fixtureId}, {name, status, matchType});
+    upload.fields([
+      {
+        name: "team_one_image",
+        maxCount: 1
+      },
+      {
+        name: "team_two_image",
+        maxCount: 1
+      }
+    ])(req, res, async (err) => {
+      if (err instanceof multer.MulterError) {
+        console.error(err);
+        return res.status(500).json({ error: "Multer error!" });
+      } else if (err) {
+        console.error(err);
+        return res.status(500).json({ error: "Error uploading file!" });
+      }
 
-        res.status(200).json({
-            status : true,
-            message : "successfully updated fixture data",
-            data : fixture,
+      const fixtureId = req.params.id;
+      const fixtureData = req.body;
+
+      const existingFixture = await Fixture.findOne({ fixtureId });
+
+      if (!existingFixture) {
+        return res.status(404).json({ status: false, message: "Fixture not found!" });
+      }
+
+      await Stream.deleteMany({ fixture_id: existingFixture.fixtureId });
+
+      // console.log("existingFixture doc", existingFixture?._doc);
+
+      // const date = moment(matchData.time);
+      // const timestamp = date.valueOf() / 1000;
+      // const match_time = new Date(matchData.time).getTime().toString();
+
+      // if (fixtureData?.team_one_image_type === "image") {
+      //   // Delete Previous Image From Cloudinary
+      //   if (req?.files?.team_one_image) {
+      //     const publicId = getPublicId(existingFixture?.participants[0]?.image, "asia-sports");
+
+      //     cloudinary.uploader.destroy(`asia-sports/${publicId}`).then((err) => {
+      //       console.log(err);
+      //     });
+      //   }
+
+      //   existingFixture?.participants[0]?.image = req?.files?.team_one_image
+      //     ? req?.files?.team_one_image[0]?.path
+      //     : fixtureData?.team_one_image_url;
+      // } else {
+      //   existingFixture?.participants[0]?.image = fixtureData?.team_one_image_url;
+      // }
+
+      // if (fixtureData?.team_two_image_type === "image") {
+      //   // Delete Previous Image From Cloudinary
+      //   if (req?.files?.team_two_image) {
+      //     const publicId = getPublicId(existingFixture?.participants[1]?.image, "asia-sports");
+
+      //     cloudinary.uploader.destroy(`asia-sports/${publicId}`).catch((err) => {
+      //       console.log(err);
+      //     });
+      //   }
+
+      //   existingFixture?.participants[1]?.image = req?.files?.team_two_image
+      //     ? req?.files?.team_two_image[0]?.path
+      //     : fixtureData?.team_two_image_url;
+      // } else {
+      //   existingFixture?.participants[1]?.image = fixtureData?.team_two_image_url;
+      // }
+
+
+      const updatedFIxture = {
+            name : fixtureData.match_title,
+            fixtureId : existingFixture.fixtureId,
+            league : {
+                id : existingFixture?.league?.id,
+                name : existingFixture?.league?.name,
+                image : existingFixture?.league?.image_path
+            },
+            startingAt : fixtureData.time,
+            matchType : fixtureData?.is_hot === '0' ? "normal" : "hot",
+            status : fixtureData?.status,
+            streaming_sources : [],
+            participants : existingFixture?.participants?.map((item, index) => ({
+              id : item?.id,
+              score : item?.score,
+              name :index === 0 ? fixtureData.team_one_name : fixtureData.team_two_name,
+              image : index === 0 ? fixtureData?.team_one_image_url : fixtureData?.team_two_image_url
+            }))
+        }
+
+
+      // Update match fields
+      // existingFixture.name = fixtureData.match_title;
+      // existingFixture.startingAt = fixtureData.time;
+      // existingFixture.fixtureId = fixtureData.fixture_id;
+      // existingFixture.matchType= fixtureData.is_hot === '0' ? 'normal' : 'hot';
+      // existingFixture.status = fixtureData.status;
+
+      // const participants = existingFixture?.participants?.map((item, index) => ({
+      //   _id : item?._id,
+      //   id : item?.id,
+      //   score : item?.score,
+      //   name :index === 0 ? fixtureData.team_one_name : fixtureData.team_two_name,
+      //   image : index === 0 ? fixtureData?.team_one_image_url : fixtureData?.team_two_image_url
+      // }));
+
+      // existingFixture?.participants?.push(participants);
+
+      // existingFixture.streaming_sources = [];
+
+      const streamingData = createStreaming(JSON.parse(fixtureData?.streaming_sources));
+
+      await Promise.all(
+        streamingData.map(async (streamData) => {
+          const newStream = new Stream({
+            id: generateRandomId(15),
+            matchId: existingFixture?._id,
+            fixture_id : existingFixture?.fixtureId,
+            ...streamData
+          });
+
+          updatedFIxture.streaming_sources.push(newStream._id);
+          await newStream.save();
+          return newStream;
         })
+      );
 
-    }catch(err){
-        console.log("error occuring update fixture", err)
-        res.status(500).json({
-            status : false,
-            message : "something went wrong",
-        })
-    }
+      console.log("updatedFIxture", updatedFIxture);
+
+      const responseUpdate = await Fixture.findOneAndUpdate({ fixtureId }, updatedFIxture);
+
+     
+
+      return res.status(200).json({
+        status: true,
+        message: "fixture and Streams updated successfully!",
+        match: existingFixture
+      });
+    });
+  } catch (error) {
+    console.log("error occuring update fixture")
+    res.status(500).json({
+        status : false,
+        message : "something went wrong",
+    })
+  }
+  
 }
 
 exports.deleteFixtureById = async(req, res)=> {
