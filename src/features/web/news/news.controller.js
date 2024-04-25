@@ -3,7 +3,7 @@ const News = require("../../../models/News");
 
 exports.getAllNews = async(req, res, next) => {
     try {
-        const { page = 1, limit = 10 } = req.query;
+        const { page = 1, limit = 100 } = req.query;
         const skip = (page - 1) * limit;
     
         const [docs, total] = await Promise.all([
@@ -17,15 +17,7 @@ exports.getAllNews = async(req, res, next) => {
         return res.json({
           status: true,
           message: "News fetched successfully!",
-          data: {
-            docs,
-            page: +page,
-            limit: +limit,
-            totalPage: Math.ceil(total / limit),
-            totalDocs: total,
-            hasNext,
-            hasPrev
-          }
+          data: docs
         });
       } catch (error) {
         next(error);
