@@ -1,4 +1,4 @@
-const Team = require("../../../admin/teams/models/Team");
+const Team = require("../../admin/team/team.model");
 
 exports.getAllTeam = async(req, res) => {
 

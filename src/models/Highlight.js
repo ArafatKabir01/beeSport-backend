@@ -10,10 +10,10 @@ const highlightSchema = new mongoose.Schema(
       type: Date,
       required: true
     },
-    category: {
-      type: String,
-      required: true
-    },
+    // category: {
+    //   type: String,
+    //   required: true
+    // },
     fixtureId: {
       type: String,
       required: true

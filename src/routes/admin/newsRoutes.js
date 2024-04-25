@@ -21,11 +21,11 @@ const validateNews = [
     .notEmpty()
     .withMessage("Image Type is required!"),
   body("imageUrl").if(body("imageType").equals("url")).notEmpty().withMessage("Image Url is required!"),
-  body("category")
-    .isIn(["cricket", "football"])
-    .withMessage("Category either cricket or football!")
-    .notEmpty()
-    .withMessage("Category is required!"),
+  // body("category")
+  //   .isIn(["cricket", "football"])
+  //   .withMessage("Category either cricket or football!")
+  //   .notEmpty()
+  //   .withMessage("Category is required!"),
   body("league").notEmpty().withMessage("League is required!"),
   body("description").notEmpty().withMessage("Description is required!"),
   body("publishDate").notEmpty().withMessage("Publish date is required!"),

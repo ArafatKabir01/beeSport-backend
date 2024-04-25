@@ -1,4 +1,4 @@
-const { getAllFixtures , createSelectedFixtures, getAllFixturesWithPagination, getFixtureById, updateFixtureById, deleteFixtureById, refreashFixtureById} = require('../controllers/fixture-controllers');
+const { getAllFixtures , createSelectedFixtures, getAllFixturesWithPagination, getFixtureById, updateFixtureById, deleteFixtureById, refreashFixtureById} = require('./fixture.controllers');
 
 const router = require('express').Router();
 

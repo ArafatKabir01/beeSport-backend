@@ -34,6 +34,11 @@ const fixtureSchema = new Schema({
         type : String,
         default : "1"
     },
+    live_status : {
+        type : Boolean,
+        default : false
+
+    },
     streaming_sources: [
         {
           type: mongoose.Schema.Types.ObjectId,

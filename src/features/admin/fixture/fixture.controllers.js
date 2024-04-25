@@ -1,9 +1,10 @@
-const Stream = require("../../../../models/Stream");
-const { createStreaming } = require("../../../../services/matchServices");
-const { getPagination, generateRandomId, getPublicId } = require("../../../../utils");
-const { sportMonkslUrl } = require("../../../../utils/getAxios");
-const Fixture = require("../models/Fixture");
+const Stream = require("../../../models/Stream");
+
+const { getPagination, generateRandomId, getPublicId } = require("../../../utils");
+const { sportMonkslUrl } = require("../../../utils/getAxios");
+const Fixture = require("./fixture.model");
 const multer = require("multer");
+const { createStreaming } = require("../../../services/matchServices");
 const cloudinary = require("cloudinary").v2;
 const CloudinaryStorage = require("multer-storage-cloudinary").CloudinaryStorage;
 
@@ -353,6 +354,7 @@ exports.updateFixtureById = async(req, res)=> {
             startingAt : fixtureData.time,
             matchType : fixtureData?.is_hot === '0' ? "normal" : "hot",
             status : fixtureData?.status,
+            live_status : fixtureData?.live_status === "1" ? true : false,
             streaming_sources : [],
             participants : existingFixture?.participants?.map((item, index) => ({
               id : item?.id,

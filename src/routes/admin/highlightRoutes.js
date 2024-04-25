@@ -16,11 +16,11 @@ const router = express.Router();
 const validateHighlightBody = [
   body("title").notEmpty().withMessage("Title is required!"),
   body("date").notEmpty().withMessage("Date is required!"),
-  body("category")
-    .isIn(["cricket", "football"])
-    .withMessage("Category either cricket or football!")
-    .notEmpty()
-    .withMessage("Category is required!"),
+  // body("category")
+  //   .isIn(["cricket", "football"])
+  //   .withMessage("Category either cricket or football!")
+  //   .notEmpty()
+  //   .withMessage("Category is required!"),
   body("videoType")
     .isIn(["source", "youtube"])
     .withMessage("Video type either youtube or source!")

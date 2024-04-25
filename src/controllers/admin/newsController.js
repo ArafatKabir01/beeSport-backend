@@ -45,7 +45,7 @@ const createNews = async (req, res, next) => {
       return res.status(400).json({ status: false, errors: errorMessages });
     }
 
-    const { title, league, category, shortDescription, description, imageType, imageUrl, publishDate, status } =
+    const { title, league, shortDescription, description, imageType, imageUrl, publishDate, status } =
       req.body;
 
     let uploadImageUrl = "";
@@ -57,7 +57,6 @@ const createNews = async (req, res, next) => {
     const news = new News({
       title,
       league,
-      category,
       slug: `${getSlugify(title)}-${generateRandomId(11)}`,
       shortDescription,
       description,

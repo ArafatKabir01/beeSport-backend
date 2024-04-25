@@ -1,5 +1,6 @@
-const { sportMonkslUrl } = require("../../../../utils/getAxios");
-const Team = require("../models/Team");
+
+const { sportMonkslUrl } = require("../../../utils/getAxios");
+const Team = require("./team.model");
 
 exports.getTeamsBySearchTerm = async(req, res) => {
     const searchTerm = req?.params.searchTerm;

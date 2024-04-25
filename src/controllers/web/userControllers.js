@@ -284,6 +284,80 @@ const verifyPhoneOtp = async (optInfo) => {
   }
 };
 
+// Verify Email 
+
+const verifyEmailOtp = async (optInfo) => {
+  try {
+    const { email, otp } = optInfo;
+    const findUser = await User.findOne({ email });
+
+    if (!findUser) {
+      return { status: false, message: "OTP is expired or incorrect!" };
+    }
+
+    const hashedOtp = findUser.verify_code;
+    let isValidOtp = false;
+    const isValidTime = checkTimeValidity(findUser.updatedAt);
+
+    if (!!hashedOtp) {
+      isValidOtp = await checkOptValidity(otp, hashedOtp);
+    }
+
+    if (isValidOtp && isValidTime) {
+      const userData = {
+        eamil_verified: 1,
+        status: 1,
+        verify_code: null
+      };
+
+      const verifiedUser = await User.findByIdAndUpdate(findUser._id, userData, { new: true });
+
+      const accessToken = await generateSignature(
+        {
+          phone: verifiedUser.phone
+        },
+        60 * 60 * 24 * 30 // 30 Days
+      );
+
+      const refreshToken = await generateSignature(
+        {
+          phone: verifiedUser.phone
+        },
+        60 * 60 * 24 * 60 // 60 Days
+      );
+
+      const user = exclude(verifiedUser.toObject(), [
+        "password",
+        "salt",
+        "verify_code",
+        "provider",
+        "forget_code",
+        "createdAt",
+        "updatedAt",
+        "_id",
+        "__v"
+      ]);
+
+      return {
+        status: true,
+        data: {
+          ...user,
+          accessToken,
+          refreshToken,
+          expiresIn: new Date().setTime(new Date().getTime() + EXPIRE_TIME),
+          role: "user"
+        },
+        message: "Otp validated & sign in successfully!"
+      };
+    } else {
+      return { status: false, message: "OTP is expired or incorrect!" };
+    }
+  } catch (error) {
+    console.error("Error", error);
+    throw new Error("Failed");
+  }
+};
+
 // Get Access Token
 const getAccessToken = async (userInfo) => {
   try {
@@ -756,5 +830,6 @@ module.exports = {
   addToUserFavorites,
   updateUserFavorites,
   changeForgetPassword,
-  verifyForgetPasswordOtp
+  verifyForgetPasswordOtp,
+  verifyEmailOtp
 };

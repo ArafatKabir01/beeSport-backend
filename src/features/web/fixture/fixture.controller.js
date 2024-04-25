@@ -1,5 +1,5 @@
-const { getPagination } = require("../../../../utils");
-const Fixture = require("../../../admin/fixtures/models/Fixture");
+const { getPagination } = require("../../../utils");
+const Fixture = require("../../admin/fixture/fixture.model");
 
 
 exports.getAllFixtures = async(req, res) => {
