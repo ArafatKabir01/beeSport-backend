@@ -1,6 +1,6 @@
 const { validationResult } = require("express-validator");
 const { transformErrorsToMap } = require("../../../utils");
-const { registerService, verifyEmailOtp } = require("./user.service");
+const { registerService, loginService, verifyEmailOtp } = require("./user.service");
 const { generateVerificationCode } = require("../../../helpers");
 
 
@@ -21,6 +21,27 @@ exports.registerController = async(req, res, next) => {
         }
   
         const newUser = await registerService({name, email, password});
+
+        res.status(200).json(newUser);
+
+      } catch (error) {
+        // console.error(error);
+        next(error)
+      }
+}
+
+exports.loginController = async(req, res, next) => {
+    try {
+        const errors = validationResult(req);
+        const errorMessages = transformErrorsToMap(errors.array());
+  
+        if (!errors.isEmpty()) {
+          return res.status(400).json({ status: false, errors: errorMessages });
+        }
+  
+        const { email, password } = req.body;
+  
+        const newUser = await loginService({ email, password});
 
         res.status(200).json(newUser);
 

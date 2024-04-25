@@ -2,7 +2,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require("./user.model");
 const error = require('../../../utils/error');
-const { generateSalt, generatePassword, generateVerificationCode, generateSignature, exclude, checkTimeValidity, checkOptValidity } = require('../../../helpers');
+const { generateSalt, generatePassword, generateVerificationCode, generateSignature, exclude, checkTimeValidity, checkOptValidity, validatePassword } = require('../../../helpers');
 const sendVerificationEmail = require('../../../services/sendEmailVerification');
 
 const EXPIRE_TIME = 60 * 60 * 24 * 29 * 1000; // 29 Days
@@ -139,24 +139,70 @@ const registerService = async ({
       }
 };
 
-const loginService = async (email, password) => {
-    const user = await findUserByProperty('email', email);
-    if (!user) {
-        throw error('Invalid credientials', 400);
-    }
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) {
-        throw error('Invalid credientials', 400);
-    }
-
-    const payload = {
-        _id: user._id,
-        name: user.name,
-        email: user.email,
-        roles: user.roles,
-        accountStatus: user.accountStatus,
-    };
-    return jwt.sign(payload, 'secret-key', { expiresIn: '2h' });
+const loginService = async ({ email, password }) => {
+   
+    try {
+       
+        let existingUser = await User.findOne({ email });
+    
+        if (!existingUser) {
+          return {
+            status: false,
+            message: "Your credentials are incorrect!"
+          };
+        } else {
+          const validPassword = await validatePassword(password, existingUser.password, existingUser.salt);
+    
+          if (validPassword) {
+            const accessToken = await generateSignature(
+              {
+                phone: existingUser.phone
+              },
+              60 * 60 * 24 * 30 // 30 Days
+            );
+    
+            const refreshToken = await generateSignature(
+              {
+                phone: existingUser.phone
+              },
+              60 * 60 * 24 * 60 // 60 Days
+            );
+    
+            const user = exclude(existingUser.toObject(), [
+              "_id",
+              "__v",
+              "password",
+              "salt",
+              "verify_code",
+              "provider",
+              "forget_code",
+              "createdAt",
+              "updatedAt"
+            ]);
+    
+            return {
+              status: true,
+              message: "Login successfully!",
+              data: {
+                accessToken,
+                refreshToken,
+                expiresIn: new Date().setTime(new Date().getTime() + EXPIRE_TIME),
+                ...user,
+                role: "user"
+              }
+            };
+          } else {
+            return {
+              status: false,
+              message: "Your credentials are incorrect!"
+            };
+          }
+        }
+      } catch (error) {
+        console.error("Error in Sign In:", error);
+        throw new Error("Failed to user Sign In!");
+      }
+    
 };
 
 
@@ -185,7 +231,7 @@ const verifyEmailOtp = async (optInfo) => {
         };
   
         const verifiedUser = await User.findByIdAndUpdate(findUser._id, userData, { new: true });
-        console.log("verifiedUser", verifiedUser)
+        
   
         const accessToken = await generateSignature(
           {
