@@ -218,6 +218,25 @@ exports.getAllFixturesWithPagination = async(req, res) => {
     }
 }
 
+
+exports.getAllOwnFixture = async(req, res, next) => {
+
+    try{
+
+      const ownFixtures = await Fixture.find();
+
+      res.status(200).json({
+        status : true,
+        message : "Own fixtures Data Fetched Successfully!",
+        data : ownFixtures
+    });
+
+    }catch(err){
+      console.log("error occuring fetch all own fixture")
+      next(err)
+    }
+}
+
 exports.getFixtureById = async(req, res) => {
     const fixtureId = parseInt(req.params.id);
 

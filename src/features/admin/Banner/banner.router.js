@@ -1,20 +1,19 @@
-const { createBanner } = require("./Banner.controller");
-const { validateBanner } = require("./banner.validations");
+const { createBanner, getAllBanners, deleteBanner, updateBanner, getBannerById } = require("./Banner.controller");
+const multer = require("multer");
+const { validateBanner, validateSingleBanner } = require("./banner.validations");
+
+const upload = multer();
 
 const router = require("express").Router();
 
-router.post("/", validateBanner, createBanner);
+router.post("/", upload.single("image"), validateBanner, createBanner);
 
-router.get("/", (req, res) => {
-    res.json({message : "success"})
-});
+router.get("/", getAllBanners);
 
-router.put("/:id", (req, res) => {
-    res.json({message : "success"})
-});
+router.get("/:bannerId", validateSingleBanner, getBannerById);
 
-router.delete("/:id", (req, res) => {
-    res.json({message : "success"})
-});
+router.put("/:bannerId", upload.single("image"), validateBanner, updateBanner);
+
+router.delete("/:bannerId", validateSingleBanner, deleteBanner);
 
 module.exports = router;
