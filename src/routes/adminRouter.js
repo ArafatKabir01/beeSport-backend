@@ -5,20 +5,20 @@ const { userAuth } = require("../middlewares/userAuth");
 // Admin Routes
 router.use("/", require("./admin/adminRoutes"));
 router.use("/users", require("./admin/userRoutes"));
-router.use("/news", userAuth, require("./admin/newsRoutes"));
-router.use("/matches", userAuth, require("./admin/matchRoutes"));
-router.use("/notifications", userAuth, require("./admin/notificationRoutes"));
+router.use(userAuth);
+router.use("/news", require("./admin/newsRoutes"));
+router.use("/matches", require("./admin/matchRoutes"));
+router.use("/notifications", require("./admin/notificationRoutes"));
 router.use("/fixtures", require("./admin/fixtureRoutes"));
-router.use("/administration-settings", userAuth, require("./admin/administratorSettingsRoute"));
-router.use("/highlights", userAuth, require("./admin/highlightRoutes"));
-router.use("/popular-leagues", userAuth, require("./admin/popularLeagueRoutes"));
-router.use("/banner", userAuth, require("./admin/bannerRoutes"));
-router.use("/tipster", userAuth, require("./admin/tipSterRoutes"));
-
-router.use("/popular-entities", userAuth, require("./admin/popularEntitiesRoutes"));
-router.use("/news-league", userAuth, require("./admin/newsLeagueRoutes"));
-router.use("/popular/football-leagues", userAuth, require("./admin/footballLeaguesRoutes"));
-router.use("/popular/cricket-leagues", userAuth, require("./admin/cricketLeaguesRoutes"));
-router.use("/subscriptions", userAuth, require("./admin/subscriptionRoutes"));
+router.use("/administration-settings", require("./admin/administratorSettingsRoute"));
+router.use("/highlights", require("./admin/highlightRoutes"));
+router.use("/popular-leagues", require("./admin/popularLeagueRoutes"));
+router.use("/banner", require("./admin/bannerRoutes"));
+router.use("/tipster", require("./admin/tipSterRoutes"));
+router.use("/popular-entities", require("./admin/popularEntitiesRoutes"));
+router.use("/news-league", require("./admin/newsLeagueRoutes"));
+router.use("/popular/football-leagues", require("./admin/footballLeaguesRoutes"));
+router.use("/popular/cricket-leagues", require("./admin/cricketLeaguesRoutes"));
+router.use("/subscriptions", require("./admin/subscriptionRoutes"));
 
 module.exports = router;

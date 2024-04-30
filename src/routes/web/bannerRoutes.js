@@ -35,7 +35,7 @@ router.get("/", async (req, res, next) => {
 
     return res.status(200).send({ status: true, banner: randomBanner });
   } catch (error) {
-    console.log(error);
+    console.error(error);
     next(error);
   }
 });

@@ -16,7 +16,6 @@ exports.getTeamsBySearchTerm = async(req, res) => {
         })
 
     }catch(err){
-        console.log("error occuring retrieve teams", err)
         res.status(500).json({
             status : false,
             message : "something went wrong",
@@ -54,7 +53,6 @@ exports.createTeam = async(req, res) => {
     });
 
     }catch(err){
-        console.log("error occuring create team", err)
         res.status(500).json({
             status : false,
             message : "something went wrong",
@@ -77,7 +75,6 @@ exports.getAllTeam = async(req, res) => {
     });
 
     }catch(err){
-        console.log("error occuring get all team", err)
         res.status(500).json({
             status : false,
             message : "something went wrong",
@@ -96,7 +93,6 @@ exports.deleteTeamById = async(req, res) => {
         });
 
     }catch(err){
-        console.log("error occuring get all team", err)
         res.status(500).json({
             status : false,
             message : "something went wrong",

@@ -97,7 +97,7 @@ router.post("/update", async (req, res, next) => {
         if (file && path) {
           const publicId = getPublicId(path, "asia-sports");
           await cloudinary.uploader.destroy(`asia-sports/${publicId}`).catch((err) => {
-            console.log(err);
+            console.error(err);
           });
         }
       };

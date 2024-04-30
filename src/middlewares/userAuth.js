@@ -2,7 +2,6 @@ const { validateSignature } = require("../utils");
 
 const userAuth = async (req, res, next) => {
   const isAuthorized = await validateSignature(req);
-  // console.log("IsAuthorized", isAuthorized);
 
   if (isAuthorized) {
     return next();

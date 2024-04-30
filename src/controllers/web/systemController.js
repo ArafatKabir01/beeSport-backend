@@ -11,7 +11,7 @@ const getAllowedStates = async (req, res) => {
       data: countryShortList
     });
   } catch (error) {
-    console.log(error);
+    console.error(error);
     res.json({ status: false, message: "Something went wrong!" });
   }
 };

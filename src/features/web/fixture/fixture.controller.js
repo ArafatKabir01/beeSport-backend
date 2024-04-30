@@ -28,7 +28,6 @@ exports.getAllFixtures = async(req, res) => {
         })
 
     }catch(err){
-        console.log("error occuring get all fixtures", err)
         res.status(500).json({
             status : false,
             message : "something went wrong",
@@ -50,7 +49,6 @@ exports.getFixtureById = async(req, res) => {
         })
 
     }catch(err){
-        console.log("error occuring get fixture by id", err)
         res.status(500).json({
             status : false,
             message : "something went wrong",

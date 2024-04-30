@@ -6,7 +6,6 @@ const getHighlightsByDate = async (req, res, next) => {
     const { page = 1, limit = 10, category } = req.query;
     const skip = (page - 1) * limit;
 
-    console.log("date: ", date);
 
     let formateDate = new Date(date).toISOString().replace("+00:00", "z");
     const query = {
@@ -17,7 +16,6 @@ const getHighlightsByDate = async (req, res, next) => {
       query.category = category;
     }
 
-    console.log("query: ", query);
 
     const [docs, total] = await Promise.all([
       Highlight.find(query).limit(limit).skip(skip).sort({ createdAt: "desc" }),

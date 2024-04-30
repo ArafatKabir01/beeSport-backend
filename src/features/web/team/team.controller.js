@@ -13,7 +13,6 @@ exports.getAllTeam = async(req, res) => {
     });
 
     }catch(err){
-        console.log("error occuring get all team", err)
         res.status(500).json({
             status : false,
             message : "something went wrong",

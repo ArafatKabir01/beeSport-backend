@@ -162,7 +162,7 @@ async function updateMatch(req, res, next) {
           const publicId = getPublicId(existingMatch.team_two_image, "asia-sports");
 
           cloudinary.uploader.destroy(`asia-sports/${publicId}`).then((err) => {
-            console.log(err);
+            console.error(err);
           });
         }
 
@@ -179,7 +179,7 @@ async function updateMatch(req, res, next) {
           const publicId = getPublicId(existingMatch.team_two_image, "asia-sports");
 
           cloudinary.uploader.destroy(`asia-sports/${publicId}`).catch((err) => {
-            console.log(err);
+            console.error(err);
           });
         }
 
@@ -257,9 +257,6 @@ async function getAllMatches(req, res, next) {
     const { page = 1, limit = 10 } = req.query;
     const skip = (page - 1) * limit;
 
-    // console.log("page: ", page);
-    // console.log("limit: ", limit);
-    // console.log("skip: ", skip);
 
     const [docs, total] = await Promise.all([
       LiveMatch.find({})
@@ -307,7 +304,7 @@ async function deleteMatchWithStreams(req, res, next) {
       const publicId = getPublicId(existingMatch.team_one_image, "asia-sports");
 
       cloudinary.uploader.destroy(`asia-sports/${publicId}`).catch((err) => {
-        console.log(err);
+        console.error(err);
       });
     }
 
@@ -316,7 +313,7 @@ async function deleteMatchWithStreams(req, res, next) {
       const publicId = getPublicId(existingMatch.team_two_image, "asia-sports");
 
       cloudinary.uploader.destroy(`asia-sports/${publicId}`).catch((err) => {
-        console.log(err);
+        console.error(err);
       });
     }
 

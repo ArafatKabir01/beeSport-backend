@@ -52,7 +52,6 @@ const updateTipSter = async (req, res, next) => {
     if (req.file) {
       req.body.image = await cloudinaryUpload(req.file, "tipster");
     }
-    // console.log(req.body);
     const tipSter = await TipSter.findByIdAndUpdate(req.params.id, req.body, { new: true });
     return res.status(200).send({ status: true, message: "TipSter updated successfully", tipSter });
   } catch (error) {

@@ -130,7 +130,6 @@ const updateNews = async (req, res, next) => {
 const getNewsById = async (req, res, next) => {
   try {
     const id = req.params.newsId;
-    console.log(id);
     const news = await News.findOne({ _id: id });
 
     if (!news) {

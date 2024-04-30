@@ -53,7 +53,6 @@ const getSelectedPointTable = async (req, res) => {
       const { data: standingsResponse } = await sportMonksCricketUrl.get(
         `standings/season/${league[0]?.currentSeason}?include=league,stage,season`
       );
-      // console.log("standingsResponse", standingsResponse);
       const cricketfinalData = {
         league_name: league[0].name,
         league_image: league[0].image_path,
@@ -66,8 +65,6 @@ const getSelectedPointTable = async (req, res) => {
       });
     }
   } catch (error) {
-    // console.log(error);
-    // throw new Error("Failed to get top league data!");
     return res.json({
       status: false,
       message: "Something went wrong!"
