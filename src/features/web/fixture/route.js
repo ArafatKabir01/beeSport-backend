@@ -1,4 +1,4 @@
-const { getAllFixtures, getFixtureById } = require("./fixture.controller");
+const { getAllFixtures, getFixtureById } = require("./controller");
 
 const router = require("express").Router();
 

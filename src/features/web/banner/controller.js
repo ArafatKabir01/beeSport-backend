@@ -1,4 +1,4 @@
-const Banner = require("../../admin/Banner/banner.model");
+const Banner = require("../../admin/Banner/model");
 
 
 

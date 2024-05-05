@@ -1,5 +1,5 @@
 const { getPagination } = require("../../../utils");
-const Fixture = require("../../admin/fixture/fixture.model");
+const Fixture = require("../../admin/fixture/model");
 
 exports.getAllFixtures = async (req, res, next) => {
   const page = req?.query?.page;

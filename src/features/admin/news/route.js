@@ -1,7 +1,7 @@
 const { body, param } = require("express-validator");
 const express = require("express");
 const multer = require("multer");
-const { getAllNews, getNewsById, createNews, updateNews, deleteNews } = require("./news.controller");
+const { getAllNews, getNewsById, createNews, updateNews, deleteNews } = require("./controller");
 // const {
 //   createNews,
 //   getAllNews,

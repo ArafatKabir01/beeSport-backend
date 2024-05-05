@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const { getAllTeam } = require("./team.controller");
+const { getAllTeam } = require("./controller");
 
 router.get("/", getAllTeam);
 

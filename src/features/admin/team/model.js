@@ -10,6 +10,7 @@ const teamSchema = new Schema(
       type: String,
       required: true
     },
+    position: { type: Number, default: 999999999 },
     image: {
       type: String,
       required: true

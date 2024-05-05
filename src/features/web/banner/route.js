@@ -1,4 +1,4 @@
-const { getAllBanners } = require("./banner.controller");
+const { getAllBanners } = require("./controller");
 
 const router = require("express").Router();
 

@@ -7,15 +7,15 @@ const {
   deleteFixtureById,
   refreshFixtureById,
   getAllOwnFixture
-} = require("./fixture.controllers");
+} = require("./controller");
 
 const router = require("express").Router();
 
+router.patch("/refreash/:id", refreshFixtureById);
 router.get("/own-fixtures", getAllOwnFixture);
 router.get("/byDate", getAllFixtures);
 router.get("/:id", getFixtureById);
 router.put("/:id", updateFixtureById);
-router.patch("/refresh/:id", refreshFixtureById);
 router.delete("/:id", deleteFixtureById);
 router.get("/", getAllFixturesWithPagination);
 router.post("/", createSelectedFixtures);

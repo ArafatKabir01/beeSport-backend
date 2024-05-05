@@ -1,5 +1,5 @@
 const { sportMonkslUrl } = require("../../../utils/getAxios");
-const Team = require("./team.model");
+const Team = require("./model");
 
 exports.getTeamsBySearchTerm = async (req, res, next) => {
   const searchTerm = req?.params.searchTerm;
@@ -17,6 +17,30 @@ exports.getTeamsBySearchTerm = async (req, res, next) => {
     next(error);
   }
 };
+
+exports.sortTeam = async(req, res, next) => {
+  try {
+    const {teamData} = req.body;
+
+    await Promise.all(
+      teamData?.map(async (team) => {
+        const updatedTeam = await Team.findById(team._id);
+        updatedTeam.position = team.position;
+        await updatedTeam.save();
+
+        return updatedTeam;
+      })
+    );
+
+    return res.status(200).json({
+      status: true,
+      message: "team Sorted Successfully!"
+    });
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+}
 
 exports.createTeam = async (req, res, next) => {
   const { teamId, name, image } = req.body;

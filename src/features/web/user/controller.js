@@ -1,6 +1,6 @@
 const { validationResult } = require("express-validator");
 const { transformErrorsToMap } = require("../../../utils");
-const { registerService, loginService, verifyEmailOtp } = require("./user.service");
+const { registerService, loginService, verifyEmailOtp } = require("./service");
 const { generateVerificationCode } = require("../../../helpers");
 
 exports.registerController = async (req, res, next) => {

@@ -2,7 +2,7 @@ const Stream = require("../../../models/Stream");
 
 const { getPagination, generateRandomId, getPublicId } = require("../../../utils");
 const { sportMonkslUrl } = require("../../../utils/getAxios");
-const Fixture = require("./fixture.model");
+const Fixture = require("./model");
 const multer = require("multer");
 const { createStreaming } = require("../../../services/matchServices");
 const cloudinary = require("cloudinary").v2;

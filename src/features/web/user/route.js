@@ -1,5 +1,5 @@
-const { registerController, loginController, verifyOTP } = require("./user.controller");
-const { userSchemaValidation, otpVerifyValidation, loginSchemaValidation } = require("./user.validations");
+const { registerController, loginController, verifyOTP } = require("./controller");
+const { userSchemaValidation, otpVerifyValidation, loginSchemaValidation } = require("./validation");
 
 const router = require("express").Router();
 

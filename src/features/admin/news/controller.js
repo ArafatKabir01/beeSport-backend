@@ -1,5 +1,5 @@
 const { validationResult } = require("express-validator");
-const News = require("./news.model");
+const News = require("./model");
 const { transformErrorsToMap, getSlugify, generateRandomId } = require("../../../utils");
 const cloudinaryUpload = require("../../../helpers/cloudinaryUpload");
 

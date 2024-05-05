@@ -1,6 +1,6 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const User = require("./user.model");
+const User = require("./model");
 const error = require("../../../utils/error");
 const {
   generateSalt,

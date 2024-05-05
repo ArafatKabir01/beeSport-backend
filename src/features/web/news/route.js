@@ -1,4 +1,4 @@
-const { getAllNews } = require("./news.controller");
+const { getAllNews } = require("./controller");
 
 const router = require("express").Router();
 

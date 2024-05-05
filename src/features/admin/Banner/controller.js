@@ -2,7 +2,7 @@ const { validationResult } = require("express-validator");
 const multer = require("multer");
 const { transformErrorsToMap } = require("../../../utils");
 const cloudinaryUpload = require("../../../helpers/cloudinaryUpload");
-const Banner = require("./banner.model");
+const Banner = require("./model");
 
 exports.createBanner = async (req, res, next) => {
   try {
