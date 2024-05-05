@@ -1,7 +1,7 @@
 const express = require("express");
-const { getGenaralSetting } = require("../../controllers/web/genaralSettingController");
+const { getGeneralSetting } = require("../../controllers/web/generalSettingController");
 const router = express.Router();
 
-router.get("/", getGenaralSetting);
+router.get("/", getGeneralSetting);
 
 module.exports = router;

@@ -1,6 +1,6 @@
 const GeneralSettings = require("../../models/GeneralSetting");
 
-const getGenaralSetting = async (req, res, next) => {
+const getGeneralSetting = async (req, res, next) => {
   try {
     const generalSetting = await GeneralSettings.find();
 
@@ -12,5 +12,5 @@ const getGenaralSetting = async (req, res, next) => {
 };
 
 module.exports = {
-  getGenaralSetting
+  getGeneralSetting
 };

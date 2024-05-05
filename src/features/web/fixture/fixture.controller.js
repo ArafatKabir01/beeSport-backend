@@ -1,58 +1,53 @@
 const { getPagination } = require("../../../utils");
 const Fixture = require("../../admin/fixture/fixture.model");
 
+exports.getAllFixtures = async (req, res) => {
+  const page = req?.query?.page;
+  const limit = req?.query?.limit;
 
-exports.getAllFixtures = async(req, res) => {
+  try {
+    const fixtures = await Fixture.find()
+      .populate("streaming_sources")
+      .skip(page * limit - limit)
+      .limit(limit);
 
-    const page = req?.query?.page;
-    const limit = req?.query?.limit;
+    const totalItems = await Fixture.find().count();
 
-    try{
+    const pagination = getPagination({ totalItems, limit, page });
 
-        const fixtures = await Fixture.find().populate('streaming_sources').skip(page * limit - limit)
-        .limit(limit);
+    res.status(200).json({
+      status: true,
+      message: "successfully retrieve fixtures data",
+      data: fixtures,
+      totalItems: pagination?.totalItems,
+      page: pagination.page,
+      limit: pagination?.limit,
+      hasNext: pagination?.next ? true : false,
+      hasPrev: pagination?.prev ? true : false
+    });
+  } catch (err) {
+    res.status(500).json({
+      status: false,
+      message: "something went wrong"
+    });
+  }
+};
 
-        const totalItems = await Fixture.find().count();
+exports.getFixtureById = async (req, res) => {
+  const fixtureId = req.params.id;
 
-        const pagination = getPagination({ totalItems, limit, page });
+  try {
+    const fixture = await Fixture.find({ fixtureId }).populate("streaming_sources");
 
-        res.status(200).json({
-            status : true,
-            message : "successfully retrieve fixtures data",
-            data : fixtures,
-            totalItems: pagination?.totalItems,
-            page: pagination.page,
-            limit: pagination?.limit,
-            hasNext: pagination?.next ? true : false,
-            hasPrev: pagination?.prev ? true : false
-        })
-
-    }catch(err){
-        res.status(500).json({
-            status : false,
-            message : "something went wrong",
-        })
-    }
-}
-
-
-exports.getFixtureById = async(req, res) => {
-    const fixtureId = req.params.id;
-
-    try{
-        const fixture = await Fixture.find({fixtureId}).populate('streaming_sources');
-
-        res.status(200).json({
-            status : true,
-            message : "successfully retrieve fixture data",
-            data : fixture[0],
-        })
-
-    }catch(err){
-        res.status(500).json({
-            status : false,
-            message : "something went wrong",
-        })
-    }
-
-}
+    res.status(200).json({
+      status: true,
+      message: "successfully retrieve fixture data",
+      data: fixture[0]
+    });
+  } catch (err) {
+    res.status(500).json({
+      status: false,
+      message: "something went wrong"
+    });
+  }
+};

@@ -312,7 +312,6 @@ exports.updateFixtureById = async (req, res) => {
 
       await Stream.deleteMany({ fixture_id: existingFixture.fixtureId });
 
-
       // const date = moment(matchData.time);
       // const timestamp = date.valueOf() / 1000;
       // const match_time = new Date(matchData.time).getTime().toString();
@@ -407,7 +406,6 @@ exports.updateFixtureById = async (req, res) => {
           return newStream;
         })
       );
-
 
       const responseUpdate = await Fixture.findOneAndUpdate({ fixtureId }, updatedFIxture);
 

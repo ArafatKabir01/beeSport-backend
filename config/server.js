@@ -18,12 +18,6 @@ const errorMiddleware = require("../src/middlewares/errorMiddleware");
 const { verifyApiKeyHeader } = require("../src/middlewares/userAuth");
 const getUserIpMiddleware = require("../src/middlewares/getUserIpMiddleware");
 const { sportMonksV3Data } = require("../src/controllers/web/sportMonksV3Controller");
-const { sportMonksCricketV2Data } = require("../src/controllers/web/sportMonksCricketV2Controller");
-const {
-  getCricketFixturesByIds,
-  getAllCricketleagues,
-  getAllCricketTeams
-} = require("../src/controllers/web/cricketFixtureController");
 
 const app = express();
 const env = process.env.NODE_ENV || "development";
@@ -54,11 +48,10 @@ async function initializeApp() {
     res.send("Welcome to BeeSports!");
   });
 
-  app.use("/api/v2/admin", verifyApiKeyHeader, adminRouterV2); // admin version 2
-  app.use("/api/admin", verifyApiKeyHeader, adminRouter); // admin
-  app.use("/api", verifyApiKeyHeader, webRouter); // web
-  app.use("/v3/football/*", verifyApiKeyHeader, sportMonksV3Data); // web (football)
-  app.use("/v2/cricket/*", verifyApiKeyHeader, sportMonksCricketV2Data); // web (cricket)
+  app.use("/api", verifyApiKeyHeader, webRouter); // Web
+  app.use("/api/admin", verifyApiKeyHeader, adminRouter); // Admin
+  app.use("/api/v2/admin", verifyApiKeyHeader, adminRouterV2); // Admin version 2
+  app.use("/v3/football/*", verifyApiKeyHeader, sportMonksV3Data); // Web (football)
 
   // 404 Route
   app.use((req, res, next) => {

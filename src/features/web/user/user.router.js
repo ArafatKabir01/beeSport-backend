@@ -3,7 +3,6 @@ const { userSchemaValidation, otpVerifyValidation, loginSchemaValidation } = req
 
 const router = require("express").Router();
 
-
 router.post("/signup", userSchemaValidation, registerController);
 router.post("/signin", loginSchemaValidation, loginController);
 router.post("/verify-otp", otpVerifyValidation, verifyOTP);

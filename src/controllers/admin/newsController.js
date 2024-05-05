@@ -45,8 +45,7 @@ const createNews = async (req, res, next) => {
       return res.status(400).json({ status: false, errors: errorMessages });
     }
 
-    const { title, league, shortDescription, description, imageType, imageUrl, publishDate, status } =
-      req.body;
+    const { title, league, shortDescription, description, imageType, imageUrl, publishDate, status } = req.body;
 
     let uploadImageUrl = "";
 

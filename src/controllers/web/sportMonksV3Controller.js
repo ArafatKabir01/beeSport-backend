@@ -6,7 +6,6 @@ async function sportMonksV3Data(req, res) {
   let urlEndpoint = removedPrefixUrl.split("?")[0];
   const urlQueryString = removedPrefixUrl.split("?")[1];
 
-
   if (urlEndpoint === "/leagues" || urlEndpoint.includes("/leagues/search")) {
     try {
       let has_more = true;
@@ -73,7 +72,6 @@ async function sportMonksV3Data(req, res) {
       while (has_more) {
         const { data } = await sportMonkslUrl.get(`${urlEndpoint}?${urlQueryString}&page=${page}&per_page=50`);
 
-
         fixtures = fixtures.concat(data?.data);
         has_more = data.pagination.has_more;
         page++;
@@ -108,7 +106,6 @@ async function sportMonksV3Data(req, res) {
   } else {
     try {
       const { data } = await sportMonkslUrl.get(`${urlEndpoint}?${urlQueryString}`);
-
 
       res.json({
         status: !!data?.data,

@@ -295,7 +295,14 @@ router.put(
   [
     body("phone").trim().notEmpty().withMessage("Phone is required!"),
     body("context")
-      .isIn(["football_teams", "football_leagues", "football_matches", "cricket_teams", "cricket_leagues", "cricket_matches"])
+      .isIn([
+        "football_teams",
+        "football_leagues",
+        "football_matches",
+        "cricket_teams",
+        "cricket_leagues",
+        "cricket_matches"
+      ])
       .withMessage("Context must be includes in football_teams, football_matches, football_leagues!")
       .notEmpty()
       .withMessage("Context is required!"),
@@ -334,7 +341,14 @@ router.put(
   [
     body("phone").trim().notEmpty().withMessage("Phone is required!"),
     body("context")
-      .isIn(["football_teams", "football_leagues", "football_matches", "cricket_teams", "cricket_leagues", "cricket_matches"])
+      .isIn([
+        "football_teams",
+        "football_leagues",
+        "football_matches",
+        "cricket_teams",
+        "cricket_leagues",
+        "cricket_matches"
+      ])
       .withMessage("Context must be includes in football_teams, football_matches, football_leagues!")
       .notEmpty()
       .withMessage("Context is required!"),
