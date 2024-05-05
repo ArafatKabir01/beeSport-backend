@@ -1,4 +1,4 @@
-const { createBanner, getAllBanners, deleteBanner, updateBanner, getBannerById } = require("./Banner.controller");
+const { createBanner, getAllBanners, deleteBanner, updateBanner, getBannerById } = require("./banner.controller");
 const multer = require("multer");
 const { validateBanner, validateSingleBanner } = require("./banner.validations");
 

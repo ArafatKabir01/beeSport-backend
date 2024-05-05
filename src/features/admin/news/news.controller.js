@@ -3,7 +3,6 @@ const News = require("./news.model");
 const { transformErrorsToMap, getSlugify, generateRandomId } = require("../../../utils");
 const cloudinaryUpload = require("../../../helpers/cloudinaryUpload");
 
-
 // Get All News
 const getAllNews = async (req, res, next) => {
   try {
@@ -32,6 +31,7 @@ const getAllNews = async (req, res, next) => {
       }
     });
   } catch (error) {
+    console.error(error);
     next(error);
   }
 };
@@ -46,8 +46,7 @@ const createNews = async (req, res, next) => {
       return res.status(400).json({ status: false, errors: errorMessages });
     }
 
-    const { title, league, shortDescription, description, imageType, imageUrl, publishDate, status } =
-      req.body;
+    const { title, league, shortDescription, description, imageType, imageUrl, publishDate, status } = req.body;
 
     let uploadImageUrl = "";
 
@@ -75,6 +74,7 @@ const createNews = async (req, res, next) => {
       data: savedNews
     });
   } catch (error) {
+    console.error(error);
     next(error);
   }
 };
@@ -124,6 +124,7 @@ const updateNews = async (req, res, next) => {
       data: existingNews
     });
   } catch (error) {
+    console.error(error);
     next(error);
   }
 };
@@ -131,7 +132,6 @@ const updateNews = async (req, res, next) => {
 const getNewsById = async (req, res, next) => {
   try {
     const id = req.params.newsId;
-    console.log(id);
     const news = await News.findOne({ _id: id });
 
     if (!news) {
@@ -144,6 +144,7 @@ const getNewsById = async (req, res, next) => {
       data: news
     });
   } catch (error) {
+    console.error(error);
     next(error);
   }
 };
@@ -162,6 +163,7 @@ const deleteNews = async (req, res, next) => {
       message: "News deleted successfully!"
     });
   } catch (error) {
+    console.error(error);
     next(error);
   }
 };

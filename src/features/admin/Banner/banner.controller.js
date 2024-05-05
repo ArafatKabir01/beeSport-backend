@@ -4,48 +4,41 @@ const { transformErrorsToMap } = require("../../../utils");
 const cloudinaryUpload = require("../../../helpers/cloudinaryUpload");
 const Banner = require("./banner.model");
 
+exports.createBanner = async (req, res, next) => {
+  try {
+    const errors = validationResult(req);
+    const errorMessages = transformErrorsToMap(errors.array());
 
-exports.createBanner = async(req, res) => {
-    try {
-      console.log("req", req.body);
-        const errors = validationResult(req);
-        const errorMessages = transformErrorsToMap(errors.array());
-    
-        if (!errors.isEmpty()) {
-          return res.status(400).json({ status: false, errors: errorMessages });
-        }
-    
-        const { title, imageType, imageUrl, fixtureId } =
-          req.body;
-    
-        let uploadImageUrl = "";
-    
-        if (imageType === "image" && req.file) {
-          uploadImageUrl = await cloudinaryUpload(req.file, "news");
-        }
-    
-        const banner = new Banner({
-          title,
-          fixtureId,
-          image: imageType === "url" ? imageUrl : uploadImageUrl,
-       
-        });
-    
-        const savedBanner = await banner.save();
-    
-        return res.status(201).json({
-          status: true,
-          message: "Banner created successfully!",
-          data: savedBanner
-        });
-      } catch (error) {
-        console.log("error" , error);
-        return res.status(500).json({
-            status: false,
-            message: "Error occuring for Banner created"
-          });
-      }
-}
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ status: false, errors: errorMessages });
+    }
+
+    const { title, imageType, imageUrl, fixtureId } = req.body;
+
+    let uploadImageUrl = "";
+
+    if (imageType === "image" && req.file) {
+      uploadImageUrl = await cloudinaryUpload(req.file, "news");
+    }
+
+    const banner = new Banner({
+      title,
+      fixtureId,
+      image: imageType === "url" ? imageUrl : uploadImageUrl
+    });
+
+    const savedBanner = await banner.save();
+
+    return res.status(201).json({
+      status: true,
+      message: "Banner created successfully!",
+      data: savedBanner
+    });
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+};
 
 exports.updateBanner = async (req, res, next) => {
   try {
@@ -63,9 +56,7 @@ exports.updateBanner = async (req, res, next) => {
       return res.status(404).json({ status: false, message: "Banner not found!" });
     }
 
-   
-    const { title, imageType, imageUrl, fixtureId } =
-    req.body;
+    const { title, imageType, imageUrl, fixtureId } = req.body;
 
     let uploadImageUrl = existingBanner.image;
 
@@ -74,7 +65,7 @@ exports.updateBanner = async (req, res, next) => {
     }
 
     existingBanner.title = title;
-   
+
     existingBanner.imageType = imageType;
     existingBanner.image = imageType === "url" ? imageUrl : uploadImageUrl;
     existingBanner.fixtureId = fixtureId;
@@ -87,10 +78,10 @@ exports.updateBanner = async (req, res, next) => {
       data: existingBanner
     });
   } catch (error) {
+    console.error(error);
     next(error);
   }
 };
-
 
 exports.getAllBanners = async (req, res, next) => {
   try {
@@ -119,14 +110,15 @@ exports.getAllBanners = async (req, res, next) => {
       }
     });
   } catch (error) {
+    console.error(error);
     next(error);
   }
-}
+};
 
 exports.getBannerById = async (req, res, next) => {
   try {
     const id = req.params.bannerId;
- 
+
     const banner = await Banner.findOne({ _id: id });
 
     if (!banner) {
@@ -139,6 +131,7 @@ exports.getBannerById = async (req, res, next) => {
       data: banner
     });
   } catch (error) {
+    console.error(error);
     next(error);
   }
 };
@@ -157,6 +150,7 @@ exports.deleteBanner = async (req, res, next) => {
       message: "Banner deleted successfully!"
     });
   } catch (error) {
+    console.error(error);
     next(error);
   }
 };

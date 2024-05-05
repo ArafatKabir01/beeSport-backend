@@ -27,7 +27,6 @@ const getAllLeague = async (req, res, next) => {
   }
 };
 const createLeague = async (req, res, next) => {
-  console.log(req.body);
   try {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -64,6 +63,7 @@ const createLeague = async (req, res, next) => {
       data: savedLeague
     });
   } catch (error) {
+    console.error(error);
     next(error);
   }
 };
@@ -82,6 +82,7 @@ const deleteLeague = async (req, res, next) => {
       message: "League deleted successfully!"
     });
   } catch (error) {
+    console.error(error);
     next(error);
   }
 };
@@ -106,6 +107,7 @@ const updatePointTable = async (req, res, next) => {
       message: "Select point table successfully!"
     });
   } catch (error) {
+    console.error(error);
     next(error);
   }
 };

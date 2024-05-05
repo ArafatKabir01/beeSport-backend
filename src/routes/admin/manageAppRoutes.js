@@ -23,6 +23,7 @@ router.get("/", async (req, res, next) => {
     const apps = await getApp();
     res.status(200).json(apps);
   } catch (error) {
+    console.error(error);
     next(error);
   }
 });
@@ -40,6 +41,7 @@ router.post("/create", validateCreateApp, async (req, res, next) => {
 
     res.status(201).json(app);
   } catch (error) {
+    console.error(error);
     next(error);
   }
 });
@@ -56,6 +58,7 @@ router.get("/:appId", validateSingleApp, async (req, res, next) => {
 
     res.status(200).json(app);
   } catch (error) {
+    console.error(error);
     next(error);
   }
 });
@@ -73,6 +76,7 @@ router.put("/:appId", validateSingleApp, async (req, res, next) => {
 
     res.status(200).json(app);
   } catch (error) {
+    console.error(error);
     next(error);
   }
 });
@@ -89,6 +93,7 @@ router.delete("/:appId", validateSingleApp, async (req, res, next) => {
 
     res.status(200).json(app);
   } catch (error) {
+    console.error(error);
     next(error);
   }
 });

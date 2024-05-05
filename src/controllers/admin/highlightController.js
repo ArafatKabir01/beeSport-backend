@@ -31,6 +31,7 @@ const getHighlights = async (req, res, next) => {
       }
     });
   } catch (error) {
+    console.error(error);
     next(error);
   }
 };
@@ -85,6 +86,7 @@ const createHighlight = async (req, res, next) => {
       data: savedHighlight
     });
   } catch (error) {
+    console.error(error);
     next(error);
   }
 };
@@ -145,6 +147,7 @@ const updateHighlight = async (req, res, next) => {
       data: existingHighlight
     });
   } catch (error) {
+    console.error(error);
     next(error);
   }
 };
@@ -165,6 +168,7 @@ const getHighlightById = async (req, res, next) => {
       data: highlight
     });
   } catch (error) {
+    console.error(error);
     next(error);
   }
 };
@@ -187,6 +191,7 @@ const deleteHighlight = async (req, res, next) => {
       message: "Highlight deleted successfully!"
     });
   } catch (error) {
+    console.error(error);
     next(error);
   }
 };

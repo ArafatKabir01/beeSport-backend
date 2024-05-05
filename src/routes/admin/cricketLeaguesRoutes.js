@@ -24,6 +24,7 @@ router.get("/", async (req, res, next) => {
       data: cricketLeagues
     });
   } catch (error) {
+    console.error(error);
     next(error);
   }
 });
@@ -65,6 +66,7 @@ router.post("/create", validateCreateLeague, async (req, res, next) => {
       data: savedLeague
     });
   } catch (error) {
+    console.error(error);
     next(error);
   }
 });
@@ -90,6 +92,7 @@ router.post("/sort", async (req, res, next) => {
     });
   } catch (error) {
     console.error(error);
+    console.error(error);
     next(error);
   }
 });
@@ -111,6 +114,7 @@ router.delete("/:id", validateSingleLeague, async (req, res, next) => {
       message: "Cricket league removed successfully!"
     });
   } catch (error) {
+    console.error(error);
     next(error);
   }
 });

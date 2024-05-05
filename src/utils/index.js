@@ -32,7 +32,7 @@ module.exports.generateSignature = async (payload, expiresIn) => {
   try {
     return jwt.sign(payload, APP_SECRET, { expiresIn });
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return error;
   }
 };
@@ -41,7 +41,7 @@ module.exports.GenerateTempToken = async (data) => {
   try {
     return jwt.sign(payload, code, { expiresIn: "1d" });
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return error;
   }
 };
@@ -50,22 +50,22 @@ module.exports.generateVerificationToken = async (payload) => {
   try {
     return jwt.sign(payload, APP_SECRET, { expiresIn: "1d" });
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return error;
   }
 };
 
 module.exports.CheckOptValidity = async (opt, hashedOtp) => {
   try {
-    await bcrypt.compare(opt, hashedOtp, (err, result) => {
-      if (err) {
+    await bcrypt.compare(opt, hashedOtp, (error, result) => {
+      if (error) {
         return false;
       } else {
         return true;
       }
     });
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return error;
   }
 };
@@ -89,7 +89,7 @@ module.exports.validateSignature = async (req) => {
     req.user = payload;
     return true;
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return false;
   }
 };
@@ -238,38 +238,33 @@ module.exports.generateFlussonicLink = (streamLink, streamKey, userIp) => {
 };
 
 const config = {
-	totalItems: 0,
-	limit: 10,
-	page: 1,
-	// sortType: 'dsc',
-	// sortBy: 'updatedAt',
-	// search: '',
+  totalItems: 0,
+  limit: 10,
+  page: 1
+  // sortType: 'dsc',
+  // sortBy: 'updatedAt',
+  // search: '',
 };
 
 const defaults = Object.freeze(config);
 
+module.exports.getPagination = ({ totalItems = defaults.totalItems, limit = defaults.limit, page = defaults.page }) => {
+  const totalPage = Math.ceil(totalItems / limit);
 
-module.exports.getPagination = ({
-	totalItems = defaults.totalItems,
-	limit = defaults.limit,
-	page = defaults.page,
-}) => {
-	const totalPage = Math.ceil(totalItems / limit);
+  const pagination = {
+    page,
+    limit,
+    totalItems,
+    totalPage
+  };
 
-	const pagination = {
-		page,
-		limit,
-		totalItems,
-		totalPage,
-	};
+  if (page < totalPage) {
+    pagination.next = page + 1;
+  }
 
-	if (page < totalPage) {
-		pagination.next = page + 1;
-	}
+  if (page > 1) {
+    pagination.prev = page - 1;
+  }
 
-	if (page > 1) {
-		pagination.prev = page - 1;
-	}
-
-	return pagination;
+  return pagination;
 };

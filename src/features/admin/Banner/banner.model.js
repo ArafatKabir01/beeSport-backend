@@ -1,19 +1,22 @@
-const {Schema, model} = require("mongoose");
+const { Schema, model } = require("mongoose");
 
-const bannerSchema = new Schema({
-    title : {
-        type : String,
-        required : true
+const bannerSchema = new Schema(
+  {
+    title: {
+      type: String,
+      required: true
     },
-    image : {
-        type : String,
-        required : true
+    image: {
+      type: String,
+      required: true
     },
-    fixtureId : {
-        type : Number,
-        required : true
+    fixtureId: {
+      type: Number,
+      required: true
     }
-}, {timestamps : true});
+  },
+  { timestamps: true }
+);
 
 const Banner = new model("Banner", bannerSchema);
 

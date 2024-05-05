@@ -119,7 +119,7 @@ const getSources = async (fixtureId, publicIP) => {
       };
     }
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return { status: false, message: "Something went wrong!" };
   }
 };

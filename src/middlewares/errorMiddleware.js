@@ -1,11 +1,11 @@
-const errorMiddleware = (err, req, res, next) => {
-  console.error(err.stack);
+const errorMiddleware = (error, req, res, next) => {
+  console.error(error.stack);
 
   // Check if the error is a known mongoose error (Database-related)
-  if (err.code && err.meta && err.meta.target) {
-    res.status(400).json({ status: false, message: err.message }); // Bad request
+  if (error.code && error.meta && error.meta.target) {
+    res.status(400).json({ status: false, message: error.message }); // Bad request
   } else {
-    res.status(500).json({ status: false, message: err.message || "Internal Server Error" }); // Internal server error
+    res.status(500).json({ status: false, message: error.message || "Internal Server Error" }); // Internal server error
   }
 };
 

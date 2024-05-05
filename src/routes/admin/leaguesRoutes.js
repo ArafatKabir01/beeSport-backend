@@ -20,6 +20,7 @@ router.get("/", async (req, res, next) => {
       data: leagues
     });
   } catch (error) {
+    console.error(error);
     next(error);
   }
 });
@@ -57,6 +58,7 @@ router.post("/create", validateCreateLeague, async (req, res, next) => {
       data: savedLeague
     });
   } catch (error) {
+    console.error(error);
     next(error);
   }
 });
@@ -77,6 +79,7 @@ router.get("/:leagueId", validateSingleLeague, async (req, res, next) => {
       data: league
     });
   } catch (error) {
+    console.error(error);
     next(error);
   }
 });
@@ -125,6 +128,7 @@ router.put("/:leagueId", validateCreateLeague, async (req, res, next) => {
       data: updatedLeague
     });
   } catch (error) {
+    console.error(error);
     next(error);
   }
 });
@@ -145,6 +149,7 @@ router.delete("/:leagueId", validateSingleLeague, async (req, res, next) => {
       data: deletedLeague
     });
   } catch (error) {
+    console.error(error);
     next(error);
   }
 });

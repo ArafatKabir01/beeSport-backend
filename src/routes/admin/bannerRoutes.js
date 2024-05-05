@@ -87,7 +87,7 @@ router.post("/", userAuth, bannerUpload, async (req, res, next) => {
       res.status(404).send({ status: false, message: "Banner not created!" });
     }
   } catch (error) {
-    console.log(error);
+    console.error(error);
     next(error);
   }
 });
@@ -109,7 +109,7 @@ router.get("/", async (req, res, next) => {
 
     return res.status(200).send({ status: true, banner: banners });
   } catch (error) {
-    console.log(error);
+    console.error(error);
     next(error);
   }
 });
@@ -131,7 +131,7 @@ router.get("/:id", async (req, res, next) => {
 
     return res.status(200).send({ status: true, banner: banners });
   } catch (error) {
-    console.log(error);
+    console.error(error);
     next(error);
   }
 });
@@ -184,7 +184,7 @@ router.put("/:id", userAuth, bannerUpload, async (req, res, next) => {
     const banner = await Banner.findByIdAndUpdate(req.params.id, req.body, { new: true });
     return res.status(200).send({ status: true, banner });
   } catch (error) {
-    console.log(error);
+    console.error(error);
     next(error);
   }
 });
@@ -221,7 +221,7 @@ router.delete("/:id", userAuth, async (req, res, next) => {
       ? res.status(200).send({ status: true, banner, message: "Banner delete successfully" })
       : res.status(404).send({ status: false, message: "Banner not deleted!" });
   } catch (error) {
-    console.log(error);
+    console.error(error);
     next(error);
   }
 });

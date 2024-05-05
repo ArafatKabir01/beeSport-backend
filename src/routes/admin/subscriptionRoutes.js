@@ -28,6 +28,7 @@ router.get("/", async (req, res, next) => {
       data: subscriptions
     });
   } catch (error) {
+    console.error(error);
     next(error);
   }
 });
@@ -61,6 +62,7 @@ router.post("/create", validateCreateAdsType, async (req, res, next) => {
       data: savedSubscription
     });
   } catch (error) {
+    console.error(error);
     next(error);
   }
 });
@@ -81,6 +83,7 @@ router.get("/:subscriptionId", validateSingleNews, async (req, res, next) => {
       data: subscription
     });
   } catch (error) {
+    console.error(error);
     next(error);
   }
 });
@@ -119,6 +122,7 @@ router.put("/:subscriptionId", validateCreateAdsType, async (req, res, next) => 
       data: updatedSubscription
     });
   } catch (error) {
+    console.error(error);
     next(error);
   }
 });
@@ -139,6 +143,7 @@ router.delete("/:subscriptionId", validateSingleNews, async (req, res, next) => 
       data: deletedSubscription
     });
   } catch (error) {
+    console.error(error);
     next(error);
   }
 });
