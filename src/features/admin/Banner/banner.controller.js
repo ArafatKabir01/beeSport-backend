@@ -35,6 +35,7 @@ exports.createBanner = async (req, res, next) => {
       data: savedBanner
     });
   } catch (error) {
+    console.error(error);
     next(error);
   }
 };
@@ -77,6 +78,7 @@ exports.updateBanner = async (req, res, next) => {
       data: existingBanner
     });
   } catch (error) {
+    console.error(error);
     next(error);
   }
 };
@@ -108,6 +110,7 @@ exports.getAllBanners = async (req, res, next) => {
       }
     });
   } catch (error) {
+    console.error(error);
     next(error);
   }
 };
@@ -128,6 +131,7 @@ exports.getBannerById = async (req, res, next) => {
       data: banner
     });
   } catch (error) {
+    console.error(error);
     next(error);
   }
 };
@@ -146,6 +150,7 @@ exports.deleteBanner = async (req, res, next) => {
       message: "Banner deleted successfully!"
     });
   } catch (error) {
+    console.error(error);
     next(error);
   }
 };

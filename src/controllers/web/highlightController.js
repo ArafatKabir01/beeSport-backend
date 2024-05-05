@@ -37,6 +37,7 @@ const getHighlightsByDate = async (req, res, next) => {
       }
     });
   } catch (error) {
+    console.error(error)
     next(error);
   }
 };
@@ -56,6 +57,7 @@ const getHighlightById = async (req, res, next) => {
       data: highlight
     });
   } catch (error) {
+    console.error(error)
     next(error);
   }
 };

@@ -29,6 +29,7 @@ const getSingleNews = async (req, res, next) => {
       });
     }
   } catch (error) {
+    console.error(error)
     next(error);
   }
 };
@@ -72,6 +73,7 @@ const getGroupByLeague = async (req, res, next) => {
       data: groupByLeagueArray
     });
   } catch (error) {
+    console.error(error)
     next(error);
   }
 };

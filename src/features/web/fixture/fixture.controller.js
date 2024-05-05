@@ -26,6 +26,7 @@ exports.getAllFixtures = async (req, res, next) => {
       hasPrev: pagination?.prev ? true : false
     });
   } catch (error) {
+    console.error(error);
     next(error);
   }
 };
@@ -42,6 +43,7 @@ exports.getFixtureById = async (req, res, next) => {
       data: fixture[0]
     });
   } catch (error) {
+    console.error(error);
     next(error);
   }
 };

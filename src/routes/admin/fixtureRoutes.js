@@ -45,6 +45,7 @@ router.post("/", async (req, res, next) => {
       result: sortedObj
     });
   } catch (error) {
+    console.log(error)
     next(error);
   }
 });
@@ -63,6 +64,7 @@ router.get("/highlights/:fixture_id", async (req, res, next) => {
       data: data?.data
     });
   } catch (error) {
+    console.error(error);
     next(error);
   }
 });

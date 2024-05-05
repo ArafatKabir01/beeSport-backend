@@ -19,6 +19,7 @@ exports.getAllNews = async (req, res, next) => {
       data: docs
     });
   } catch (error) {
+    console.error(error);
     next(error);
   }
 };

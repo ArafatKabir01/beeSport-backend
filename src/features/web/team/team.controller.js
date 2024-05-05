@@ -10,6 +10,7 @@ exports.getAllTeam = async (req, res, next) => {
       data: teams
     });
   } catch (error) {
+    console.error(error);
     next(error);
   }
 };

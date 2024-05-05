@@ -13,6 +13,7 @@ exports.getTeamsBySearchTerm = async (req, res, next) => {
       data: fixtureResponse?.data?.data
     });
   } catch (error) {
+    console.error(error);
     next(error);
   }
 };
@@ -57,6 +58,7 @@ exports.getAllTeam = async (req, res, next) => {
       data: teams
     });
   } catch (error) {
+    console.error(error);
     next(error);
   }
 };
@@ -71,6 +73,7 @@ exports.deleteTeamById = async (req, res, next) => {
       data: team
     });
   } catch (error) {
+    console.error(error);
     next(error);
   }
 };

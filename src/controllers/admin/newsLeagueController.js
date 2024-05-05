@@ -30,6 +30,7 @@ const getAllNewsLeague = async (req, res, next) => {
       }
     });
   } catch (error) {
+    console.error(error);
     next(error);
   }
 };
@@ -68,6 +69,7 @@ const createNewsLeague = async (req, res, next) => {
       data: savedNewsLeague
     });
   } catch (error) {
+    console.error(error);
     next(error);
   }
 };
@@ -121,6 +123,7 @@ const updateNewsLeague = async (req, res, next) => {
       data: updatedNews
     });
   } catch (error) {
+    console.error(error);
     next(error);
   }
 };
@@ -141,6 +144,7 @@ const getNewsLeagueById = async (req, res, next) => {
       data: newsLeague
     });
   } catch (error) {
+    console.error(error);
     next(error);
   }
 };
@@ -159,6 +163,7 @@ const deleteNewsLeague = async (req, res, next) => {
       message: "News League deleted successfully!"
     });
   } catch (error) {
+    console.error(error);
     next(error);
   }
 };

@@ -56,6 +56,7 @@ exports.getAllFixtures = async (req, res, next) => {
       data: fixtures?.data
     });
   } catch (error) {
+    console.error(error);
     next(error);
   }
 };
@@ -147,6 +148,7 @@ exports.createSelectedFixtures = async (req, res, next) => {
       });
     });
   } catch (error) {
+    console.error(error);
     next(error);
   }
 };
@@ -200,6 +202,7 @@ exports.getAllFixturesWithPagination = async (req, res, next) => {
       hasPrev: pagination?.prev ? true : false
     });
   } catch (error) {
+    console.error(error);
     next(error);
   }
 };
@@ -214,6 +217,7 @@ exports.getAllOwnFixture = async (req, res, next) => {
       data: ownFixtures
     });
   } catch (error) {
+    console.error(error);
     next(error);
   }
 };
@@ -230,6 +234,7 @@ exports.getFixtureById = async (req, res, next) => {
       data: fixture
     });
   } catch (error) {
+    console.error(error);
     next(error);
   }
 };
@@ -262,6 +267,7 @@ exports.refreshFixtureById = async (req, res, next) => {
       data: fixture
     });
   } catch (error) {
+    console.error(error);
     next(error);
   }
 };
@@ -401,6 +407,7 @@ exports.updateFixtureById = async (req, res, next) => {
       });
     });
   } catch (error) {
+    console.error(error);
     next(error);
   }
 };
@@ -417,6 +424,7 @@ exports.deleteFixtureById = async (req, res, next) => {
       data: fixture
     });
   } catch (error) {
+    console.error(error);
     next(error);
   }
 };
