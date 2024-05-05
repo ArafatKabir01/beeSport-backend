@@ -70,6 +70,7 @@ router.delete("/:id", validateSingleLeague, async (req, res, next) => {
       message: "League removed successfully!"
     });
   } catch (error) {
+    console.error(error);
     next(error);
   }
 });

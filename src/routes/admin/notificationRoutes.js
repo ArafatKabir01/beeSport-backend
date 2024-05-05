@@ -15,6 +15,7 @@ router.get("/", async (req, res, next) => {
       data: notifications
     });
   } catch (error) {
+    console.error(error);
     next(error);
   }
 });
@@ -32,6 +33,7 @@ router.get("/:notificationId", async (req, res, next) => {
       data: notification
     });
   } catch (error) {
+    console.error(error);
     next(error);
   }
 });
@@ -56,6 +58,7 @@ router.post("/create", async (req, res, next) => {
       message: "Notification send successfully!"
     });
   } catch (error) {
+    console.error(error);
     next(error);
   }
 });
@@ -71,6 +74,7 @@ router.delete("/delete/:notificationId", async (req, res, next) => {
       message: "Notification deleted successfully!"
     });
   } catch (error) {
+    console.error(error);
     next(error);
   }
 });
@@ -85,6 +89,7 @@ router.delete("/delete-all", async (req, res, next) => {
       message: "All notification deleted successfully!"
     });
   } catch (error) {
+    console.error(error);
     next(error);
   }
 });

@@ -284,7 +284,7 @@ const verifyPhoneOtp = async (optInfo) => {
   }
 };
 
-// Verify Email 
+// Verify Email
 
 const verifyEmailOtp = async (optInfo) => {
   try {
@@ -644,7 +644,7 @@ const getProfile = async (userInfo) => {
       data: userWithoutSensitiveInfo
     };
   } catch (error) {
-    console.log(error);
+    console.error(error);
     if (error.message === "No Profile") {
       throw new Error("User profile does not exist");
     } else {
@@ -657,9 +657,6 @@ const getProfile = async (userInfo) => {
 const addToUserFavorites = async (favoriteInfo) => {
   try {
     const { phone, context, item } = favoriteInfo;
-
-    console.log("context", context);
-    console.log("item", item);
 
     const updatedUser = await User.findOneAndUpdate(
       { phone: phone },
@@ -696,7 +693,7 @@ const addToUserFavorites = async (favoriteInfo) => {
       data: userWithoutSensitiveInfo
     };
   } catch (error) {
-    console.log(error);
+    console.error(error);
     throw new Error("Failed to add user favorites!");
   }
 };
@@ -705,9 +702,6 @@ const addToUserFavorites = async (favoriteInfo) => {
 const updateUserFavorites = async (favoriteInfo) => {
   try {
     const { phone, context, item } = favoriteInfo;
-
-    console.log("context", context);
-    console.log("item", item);
 
     const updatedUser = await User.findOneAndUpdate(
       { phone: phone },
@@ -744,7 +738,7 @@ const updateUserFavorites = async (favoriteInfo) => {
       data: userWithoutSensitiveInfo
     };
   } catch (error) {
-    console.log(error);
+    console.error(error);
     throw new Error("Failed to update user favorites!");
   }
 };

@@ -26,6 +26,7 @@ router.get("/", async (req, res, next) => {
       data: users
     });
   } catch (error) {
+    console.error(error);
     next(error);
   }
 });
@@ -75,6 +76,7 @@ router.post("/create", validateCreateUser, async (req, res, next) => {
       data: savedUser
     });
   } catch (error) {
+    console.error(error);
     next(error);
   }
 });
@@ -95,6 +97,7 @@ router.get("/:userId", validateSingleUser, async (req, res, next) => {
       data: user
     });
   } catch (error) {
+    console.error(error);
     next(error);
   }
 });
@@ -143,6 +146,7 @@ router.put("/:userId", validateSingleUser, async (req, res, next) => {
       data: updatedUser
     });
   } catch (error) {
+    console.error(error);
     next(error);
   }
 });
@@ -163,6 +167,7 @@ router.delete("/:userId", validateSingleUser, async (req, res, next) => {
       data: deletedUser
     });
   } catch (error) {
+    console.error(error);
     next(error);
   }
 });

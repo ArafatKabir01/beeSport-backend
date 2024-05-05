@@ -20,7 +20,7 @@ module.exports.generateSignature = async (payload, time) => {
   try {
     return jwt.sign(payload, APP_SECRET, { expiresIn: time });
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return error;
   }
 };
@@ -29,7 +29,7 @@ module.exports.GenerateTempToken = async (data) => {
   try {
     return jwt.sign(payload, code, { expiresIn: "1d" });
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return error;
   }
 };
@@ -38,7 +38,7 @@ module.exports.generateVerificationToken = async (payload) => {
   try {
     return jwt.sign(payload, process.env.APP_SECRET, { expiresIn: "1d" });
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return error;
   }
 };
@@ -48,7 +48,7 @@ module.exports.checkOptValidity = async (opt, hashedOtp) => {
     const result = await bcrypt.compare(opt, hashedOtp);
     return result;
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return error;
   }
 };
@@ -67,7 +67,7 @@ module.exports.validateSignature = async (req) => {
     req.user = payload;
     return true;
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return false;
   }
 };

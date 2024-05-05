@@ -6,7 +6,6 @@ async function sportMonksV3Data(req, res) {
   let urlEndpoint = removedPrefixUrl.split("?")[0];
   const urlQueryString = removedPrefixUrl.split("?")[1];
 
-
   if (urlEndpoint === "/leagues" || urlEndpoint.includes("/leagues/search")) {
     try {
       let has_more = true;
@@ -26,10 +25,10 @@ async function sportMonksV3Data(req, res) {
         message: "Leagues Data Fetched Successfully!",
         data: leagues
       });
-    } catch (err) {
+    } catch (error) {
       res.json({
         status: false,
-        message: err.message
+        message: error.message
       });
     }
   }
@@ -53,10 +52,10 @@ async function sportMonksV3Data(req, res) {
         message: "Fixtures Data Fetched Successfully!",
         data: fixtures
       });
-    } catch (err) {
+    } catch (error) {
       res.json({
         status: false,
-        message: err.message
+        message: error.message
       });
     }
   }
@@ -72,7 +71,6 @@ async function sportMonksV3Data(req, res) {
 
       while (has_more) {
         const { data } = await sportMonkslUrl.get(`${urlEndpoint}?${urlQueryString}&page=${page}&per_page=50`);
-
 
         fixtures = fixtures.concat(data?.data);
         has_more = data.pagination.has_more;
@@ -99,26 +97,25 @@ async function sportMonksV3Data(req, res) {
         message: "Group-Wise Fixture Data Fetched Successfully!",
         data: groupByLeague
       });
-    } catch (err) {
+    } catch (error) {
       res.json({
         status: false,
-        message: err.message
+        message: error.message
       });
     }
   } else {
     try {
       const { data } = await sportMonkslUrl.get(`${urlEndpoint}?${urlQueryString}`);
 
-
       res.json({
         status: !!data?.data,
         message: "Data Fetched Successfully!",
         data: data?.data ? data?.data : "No Data Found!"
       });
-    } catch (err) {
+    } catch (error) {
       res.json({
         status: false,
-        message: err.message
+        message: error.message
       });
     }
   }

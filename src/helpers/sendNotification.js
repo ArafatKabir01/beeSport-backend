@@ -112,7 +112,7 @@ const sendNotification = async (data, platform) => {
       fetch(oneSignalUrl, options)
         .then((response) => response.json())
         .then((response) => console.log("Notification send successfully!"))
-        .catch((err) => console.error(err));
+        .catch((error) => console.error(error));
     }
   });
 };

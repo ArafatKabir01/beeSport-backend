@@ -46,6 +46,7 @@ const getPopularEntities = async (req, res, next) => {
       data: popularFootballLeagues
     });
   } catch (error) {
+    console.error(error);
     next(error);
   }
 };
@@ -79,6 +80,7 @@ const deletePopularEntity = async (req, res, next) => {
       message: `${sports.charAt(0).toUpperCase() + sports.slice(1)} ${entity} deleted successfully!`
     });
   } catch (error) {
+    console.error(error);
     next(error);
   }
 };
@@ -127,6 +129,7 @@ const createPopularEntity = async (req, res, next) => {
       message: `${sports.charAt(0).toUpperCase() + sports.slice(1)} ${entity} added successfully!`
     });
   } catch (error) {
+    console.error(error);
     next(error);
   }
 };
