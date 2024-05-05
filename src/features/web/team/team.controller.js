@@ -1,6 +1,6 @@
 const Team = require("../../admin/team/team.model");
 
-exports.getAllTeam = async (req, res) => {
+exports.getAllTeam = async (req, res, next) => {
   try {
     const teams = await Team.find();
 
@@ -9,10 +9,7 @@ exports.getAllTeam = async (req, res) => {
       message: "successfully retrieve all team",
       data: teams
     });
-  } catch (err) {
-    res.status(500).json({
-      status: false,
-      message: "something went wrong"
-    });
+  } catch (error) {
+    next(error);
   }
 };

@@ -2,18 +2,26 @@ const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema(
   {
-    name: String,
+    name: {
+      type: String,
+      required: true
+    },
     email: {
       type: String,
-      unique: true
+      unique: true,
+      required: true
     },
-    password: String,
+    password: {
+      type: String,
+      required: true
+    },
     image: {
       type: String,
       default: null
     },
     role: {
       type: String,
+      enum: ["free", "paid", "expired"],
       default: "free"
     },
     subscription_id: {
@@ -29,7 +37,7 @@ const userSchema = new mongoose.Schema(
       default: null
     },
     expires_at: {
-      type: String,
+      type: Date,
       default: null
     },
     status: {
@@ -41,8 +49,8 @@ const userSchema = new mongoose.Schema(
       default: null
     },
     email_verified: {
-      type: Number,
-      default: 0
+      type: Boolean,
+      default: false
     },
     provider: String,
     forget_code: {
@@ -83,5 +91,10 @@ const userSchema = new mongoose.Schema(
     strict: true // Enforce strict validation
   }
 );
+
+// Add indexes for frequently queried fields
+userSchema.index({ email: 1 });
+userSchema.index({ role: 1 });
+
 const User = mongoose.model("Profile", userSchema);
 module.exports = User;

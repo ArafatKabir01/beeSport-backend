@@ -59,12 +59,12 @@ router.post("/update", async (req, res, next) => {
       name: "site_icon",
       maxCount: 1
     }
-  ])(req, res, async (err) => {
-    if (err instanceof multer.MulterError) {
-      console.error(err);
+  ])(req, res, async (error) => {
+    if (error instanceof multer.MulterError) {
+      console.error(error);
       return res.status(500).json({ error: "Multer error!" });
-    } else if (err) {
-      console.error(err);
+    } else if (error) {
+      console.error(error);
       return res.status(500).json({ error: "Error uploading file!" });
     }
 
@@ -96,8 +96,8 @@ router.post("/update", async (req, res, next) => {
       const deletePreviousFile = async (file, path) => {
         if (file && path) {
           const publicId = getPublicId(path, "asia-sports");
-          await cloudinary.uploader.destroy(`asia-sports/${publicId}`).catch((err) => {
-            console.error(err);
+          await cloudinary.uploader.destroy(`asia-sports/${publicId}`).catch((error) => {
+            console.error(error);
           });
         }
       };

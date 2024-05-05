@@ -1,4 +1,4 @@
-// External Import
+// External Imports
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
@@ -6,17 +6,20 @@ const path = require("path");
 const useragent = require("express-useragent");
 const logger = require("morgan");
 
-// Internal Import
+// Internal Imports
 const config = require("./config");
 const connectToDatabase = require("./database");
 const configureCloudinary = require("./cloudinary");
-// const webRouter = require("../src/routes/webRouter");
 const webRouter = require("../src/features/web/route");
 const adminRouter = require("../src/routes/adminRouter");
 const adminRouterV2 = require("../src/features/admin/route");
+
+// Middlewares
 const errorMiddleware = require("../src/middlewares/errorMiddleware");
 const { verifyApiKeyHeader } = require("../src/middlewares/userAuth");
 const getUserIpMiddleware = require("../src/middlewares/getUserIpMiddleware");
+
+// Controllers
 const { sportMonksV3Data } = require("../src/controllers/web/sportMonksV3Controller");
 
 const app = express();

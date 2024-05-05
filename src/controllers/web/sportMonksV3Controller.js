@@ -25,10 +25,10 @@ async function sportMonksV3Data(req, res) {
         message: "Leagues Data Fetched Successfully!",
         data: leagues
       });
-    } catch (err) {
+    } catch (error) {
       res.json({
         status: false,
-        message: err.message
+        message: error.message
       });
     }
   }
@@ -52,10 +52,10 @@ async function sportMonksV3Data(req, res) {
         message: "Fixtures Data Fetched Successfully!",
         data: fixtures
       });
-    } catch (err) {
+    } catch (error) {
       res.json({
         status: false,
-        message: err.message
+        message: error.message
       });
     }
   }
@@ -97,10 +97,10 @@ async function sportMonksV3Data(req, res) {
         message: "Group-Wise Fixture Data Fetched Successfully!",
         data: groupByLeague
       });
-    } catch (err) {
+    } catch (error) {
       res.json({
         status: false,
-        message: err.message
+        message: error.message
       });
     }
   } else {
@@ -112,10 +112,10 @@ async function sportMonksV3Data(req, res) {
         message: "Data Fetched Successfully!",
         data: data?.data ? data?.data : "No Data Found!"
       });
-    } catch (err) {
+    } catch (error) {
       res.json({
         status: false,
-        message: err.message
+        message: error.message
       });
     }
   }

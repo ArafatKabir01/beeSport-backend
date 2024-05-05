@@ -57,8 +57,8 @@ module.exports.generateVerificationToken = async (payload) => {
 
 module.exports.CheckOptValidity = async (opt, hashedOtp) => {
   try {
-    await bcrypt.compare(opt, hashedOtp, (err, result) => {
-      if (err) {
+    await bcrypt.compare(opt, hashedOtp, (error, result) => {
+      if (error) {
         return false;
       } else {
         return true;

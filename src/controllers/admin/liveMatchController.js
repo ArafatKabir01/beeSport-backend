@@ -50,12 +50,12 @@ async function createMatch(req, res, next) {
         name: "team_two_image",
         maxCount: 1
       }
-    ])(req, res, async (err) => {
-      if (err instanceof multer.MulterError) {
-        console.error(err);
+    ])(req, res, async (error) => {
+      if (error instanceof multer.MulterError) {
+        console.error(error);
         return res.status(500).json({ error: "Multer error!" });
-      } else if (err) {
-        console.error(err);
+      } else if (error) {
+        console.error(error);
         return res.status(500).json({ error: "Error uploading file!" });
       }
 
@@ -132,12 +132,12 @@ async function updateMatch(req, res, next) {
         name: "team_two_image",
         maxCount: 1
       }
-    ])(req, res, async (err) => {
-      if (err instanceof multer.MulterError) {
-        console.error(err);
+    ])(req, res, async (error) => {
+      if (error instanceof multer.MulterError) {
+        console.error(error);
         return res.status(500).json({ error: "Multer error!" });
-      } else if (err) {
-        console.error(err);
+      } else if (error) {
+        console.error(error);
         return res.status(500).json({ error: "Error uploading file!" });
       }
 
@@ -161,8 +161,8 @@ async function updateMatch(req, res, next) {
         if (req?.files?.team_one_image) {
           const publicId = getPublicId(existingMatch.team_two_image, "asia-sports");
 
-          cloudinary.uploader.destroy(`asia-sports/${publicId}`).then((err) => {
-            console.error(err);
+          cloudinary.uploader.destroy(`asia-sports/${publicId}`).then((error) => {
+            console.error(error);
           });
         }
 
@@ -178,8 +178,8 @@ async function updateMatch(req, res, next) {
         if (req?.files?.team_two_image) {
           const publicId = getPublicId(existingMatch.team_two_image, "asia-sports");
 
-          cloudinary.uploader.destroy(`asia-sports/${publicId}`).catch((err) => {
-            console.error(err);
+          cloudinary.uploader.destroy(`asia-sports/${publicId}`).catch((error) => {
+            console.error(error);
           });
         }
 
@@ -302,8 +302,8 @@ async function deleteMatchWithStreams(req, res, next) {
     if (existingMatch?.toObject().team_one_image_type === "image") {
       const publicId = getPublicId(existingMatch.team_one_image, "asia-sports");
 
-      cloudinary.uploader.destroy(`asia-sports/${publicId}`).catch((err) => {
-        console.error(err);
+      cloudinary.uploader.destroy(`asia-sports/${publicId}`).catch((error) => {
+        console.error(error);
       });
     }
 
@@ -311,8 +311,8 @@ async function deleteMatchWithStreams(req, res, next) {
     if (existingMatch?.toObject().team_two_image_type === "image") {
       const publicId = getPublicId(existingMatch.team_two_image, "asia-sports");
 
-      cloudinary.uploader.destroy(`asia-sports/${publicId}`).catch((err) => {
-        console.error(err);
+      cloudinary.uploader.destroy(`asia-sports/${publicId}`).catch((error) => {
+        console.error(error);
       });
     }
 

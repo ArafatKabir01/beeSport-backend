@@ -40,7 +40,7 @@ const upload = multer({
   }
 });
 
-exports.getAllFixtures = async (req, res) => {
+exports.getAllFixtures = async (req, res, next) => {
   const page = req?.query?.page;
   const limit = req?.query?.limit;
   const date = req?.query?.date;
@@ -55,15 +55,12 @@ exports.getAllFixtures = async (req, res) => {
       message: "successfully retrieve fixtures data",
       data: fixtures?.data
     });
-  } catch (err) {
-    res.status(500).json({
-      status: false,
-      message: "something went wrong"
-    });
+  } catch (error) {
+    next(error);
   }
 };
 
-exports.createSelectedFixtures = async (req, res) => {
+exports.createSelectedFixtures = async (req, res, next) => {
   try {
     upload.fields([
       {
@@ -74,12 +71,12 @@ exports.createSelectedFixtures = async (req, res) => {
         name: "team_two_image",
         maxCount: 1
       }
-    ])(req, res, async (err) => {
-      if (err instanceof multer.MulterError) {
-        console.error(err);
+    ])(req, res, async (error) => {
+      if (error instanceof multer.MulterError) {
+        console.error(error);
         return res.status(500).json({ error: "Multer error!" });
-      } else if (err) {
-        console.error(err);
+      } else if (error) {
+        console.error(error);
         return res.status(500).json({ error: "Error uploading file!" });
       }
 
@@ -150,14 +147,11 @@ exports.createSelectedFixtures = async (req, res) => {
       });
     });
   } catch (error) {
-    return res.status(500).json({
-      status: false,
-      message: "An error occurred while creating the match!"
-    });
+    next(error);
   }
 };
 
-exports.getAllFixturesWithPagination = async (req, res) => {
+exports.getAllFixturesWithPagination = async (req, res, next) => {
   const page = req?.query?.page;
   const limit = req?.query?.limit;
 
@@ -205,11 +199,8 @@ exports.getAllFixturesWithPagination = async (req, res) => {
       hasNext: pagination?.next ? true : false,
       hasPrev: pagination?.prev ? true : false
     });
-  } catch (err) {
-    res.status(500).json({
-      status: false,
-      message: "something went wrong"
-    });
+  } catch (error) {
+    next(error);
   }
 };
 
@@ -222,12 +213,12 @@ exports.getAllOwnFixture = async (req, res, next) => {
       message: "Own fixtures Data Fetched Successfully!",
       data: ownFixtures
     });
-  } catch (err) {
-    next(err);
+  } catch (error) {
+    next(error);
   }
 };
 
-exports.getFixtureById = async (req, res) => {
+exports.getFixtureById = async (req, res, next) => {
   const fixtureId = parseInt(req.params.id);
 
   try {
@@ -238,15 +229,12 @@ exports.getFixtureById = async (req, res) => {
       message: "successfully retrieve fixture data",
       data: fixture
     });
-  } catch (err) {
-    res.status(500).json({
-      status: false,
-      message: "something went wrong"
-    });
+  } catch (error) {
+    next(error);
   }
 };
 
-exports.refreshFixtureById = async (req, res) => {
+exports.refreshFixtureById = async (req, res, next) => {
   const fixtureId = req.params.id;
   try {
     const fixtureResponse = await sportMonkslUrl.get(`/fixtures/${fixtureId}?include=sport;league;participants;scores`);
@@ -273,15 +261,12 @@ exports.refreshFixtureById = async (req, res) => {
       message: "successfully refresh fixture data",
       data: fixture
     });
-  } catch (err) {
-    res.status(500).json({
-      status: false,
-      message: "something went wrong"
-    });
+  } catch (error) {
+    next(error);
   }
 };
 
-exports.updateFixtureById = async (req, res) => {
+exports.updateFixtureById = async (req, res, next) => {
   try {
     upload.fields([
       {
@@ -292,12 +277,12 @@ exports.updateFixtureById = async (req, res) => {
         name: "team_two_image",
         maxCount: 1
       }
-    ])(req, res, async (err) => {
-      if (err instanceof multer.MulterError) {
-        console.error(err);
+    ])(req, res, async (error) => {
+      if (error instanceof multer.MulterError) {
+        console.error(error);
         return res.status(500).json({ error: "Multer error!" });
-      } else if (err) {
-        console.error(err);
+      } else if (error) {
+        console.error(error);
         return res.status(500).json({ error: "Error uploading file!" });
       }
 
@@ -321,8 +306,8 @@ exports.updateFixtureById = async (req, res) => {
       //   if (req?.files?.team_one_image) {
       //     const publicId = getPublicId(existingFixture?.participants[0]?.image, "asia-sports");
 
-      //     cloudinary.uploader.destroy(`asia-sports/${publicId}`).then((err) => {
-      //       console.error(err);
+      //     cloudinary.uploader.destroy(`asia-sports/${publicId}`).then((error) => {
+      //       console.error(error);
       //     });
       //   }
 
@@ -338,8 +323,8 @@ exports.updateFixtureById = async (req, res) => {
       //   if (req?.files?.team_two_image) {
       //     const publicId = getPublicId(existingFixture?.participants[1]?.image, "asia-sports");
 
-      //     cloudinary.uploader.destroy(`asia-sports/${publicId}`).catch((err) => {
-      //       console.error(err);
+      //     cloudinary.uploader.destroy(`asia-sports/${publicId}`).catch((error) => {
+      //       console.error(error);
       //     });
       //   }
 
@@ -416,14 +401,11 @@ exports.updateFixtureById = async (req, res) => {
       });
     });
   } catch (error) {
-    res.status(500).json({
-      status: false,
-      message: "something went wrong"
-    });
+    next(error);
   }
 };
 
-exports.deleteFixtureById = async (req, res) => {
+exports.deleteFixtureById = async (req, res, next) => {
   const fixtureId = req.params.id;
 
   try {
@@ -434,10 +416,7 @@ exports.deleteFixtureById = async (req, res) => {
       message: "successfully deleted fixture data",
       data: fixture
     });
-  } catch (err) {
-    res.status(500).json({
-      status: false,
-      message: "something went wrong"
-    });
+  } catch (error) {
+    next(error);
   }
 };

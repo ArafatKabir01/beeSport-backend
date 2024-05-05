@@ -1,7 +1,7 @@
 const { sportMonkslUrl } = require("../../../utils/getAxios");
 const Team = require("./team.model");
 
-exports.getTeamsBySearchTerm = async (req, res) => {
+exports.getTeamsBySearchTerm = async (req, res, next) => {
   const searchTerm = req?.params.searchTerm;
 
   try {
@@ -9,18 +9,15 @@ exports.getTeamsBySearchTerm = async (req, res) => {
 
     res.status(200).json({
       status: true,
-      message: "successfully retrieve teams data",
+      message: "Successfully retrieve teams data",
       data: fixtureResponse?.data?.data
     });
-  } catch (err) {
-    res.status(500).json({
-      status: false,
-      message: "something went wrong"
-    });
+  } catch (error) {
+    next(error);
   }
 };
 
-exports.createTeam = async (req, res) => {
+exports.createTeam = async (req, res, next) => {
   const { teamId, name, image } = req.body;
 
   try {
@@ -42,47 +39,38 @@ exports.createTeam = async (req, res) => {
 
     res.status(201).json({
       status: true,
-      message: "successfully created team",
+      message: "Successfully created team",
       data: newTeam
     });
-  } catch (err) {
-    res.status(500).json({
-      status: false,
-      message: "something went wrong"
-    });
+  } catch (error) {
+    error(next);
   }
 };
 
-exports.getAllTeam = async (req, res) => {
+exports.getAllTeam = async (req, res, next) => {
   try {
     const teams = await Team.find();
 
     res.status(200).json({
       status: true,
-      message: "successfully retrieve all team",
+      message: "Successfully retrieve all team",
       data: teams
     });
-  } catch (err) {
-    res.status(500).json({
-      status: false,
-      message: "something went wrong"
-    });
+  } catch (error) {
+    next(error);
   }
 };
 
-exports.deleteTeamById = async (req, res) => {
+exports.deleteTeamById = async (req, res, next) => {
   const teamId = req.params.id;
   try {
     const team = await Team.deleteOne({ teamId });
     res.status(200).json({
       status: true,
-      message: "successfully delete team",
+      message: "Successfully delete team",
       data: team
     });
-  } catch (err) {
-    res.status(500).json({
-      status: false,
-      message: "something went wrong"
-    });
+  } catch (error) {
+    next(error);
   }
 };

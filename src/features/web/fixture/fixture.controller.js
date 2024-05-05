@@ -1,7 +1,7 @@
 const { getPagination } = require("../../../utils");
 const Fixture = require("../../admin/fixture/fixture.model");
 
-exports.getAllFixtures = async (req, res) => {
+exports.getAllFixtures = async (req, res, next) => {
   const page = req?.query?.page;
   const limit = req?.query?.limit;
 
@@ -25,15 +25,12 @@ exports.getAllFixtures = async (req, res) => {
       hasNext: pagination?.next ? true : false,
       hasPrev: pagination?.prev ? true : false
     });
-  } catch (err) {
-    res.status(500).json({
-      status: false,
-      message: "something went wrong"
-    });
+  } catch (error) {
+    next(error);
   }
 };
 
-exports.getFixtureById = async (req, res) => {
+exports.getFixtureById = async (req, res, next) => {
   const fixtureId = req.params.id;
 
   try {
@@ -44,10 +41,7 @@ exports.getFixtureById = async (req, res) => {
       message: "successfully retrieve fixture data",
       data: fixture[0]
     });
-  } catch (err) {
-    res.status(500).json({
-      status: false,
-      message: "something went wrong"
-    });
+  } catch (error) {
+    next(error);
   }
 };

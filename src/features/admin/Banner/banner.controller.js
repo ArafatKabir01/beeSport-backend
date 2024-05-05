@@ -4,7 +4,7 @@ const { transformErrorsToMap } = require("../../../utils");
 const cloudinaryUpload = require("../../../helpers/cloudinaryUpload");
 const Banner = require("./banner.model");
 
-exports.createBanner = async (req, res) => {
+exports.createBanner = async (req, res, next) => {
   try {
     const errors = validationResult(req);
     const errorMessages = transformErrorsToMap(errors.array());
@@ -35,10 +35,7 @@ exports.createBanner = async (req, res) => {
       data: savedBanner
     });
   } catch (error) {
-    return res.status(500).json({
-      status: false,
-      message: "Error occuring for Banner created"
-    });
+    next(error);
   }
 };
 
