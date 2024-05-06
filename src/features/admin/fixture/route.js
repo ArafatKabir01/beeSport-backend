@@ -11,7 +11,7 @@ const {
 
 const router = require("express").Router();
 
-router.patch("/refreash/:id", refreshFixtureById);
+router.patch("/refresh/:id", refreshFixtureById);
 router.get("/own-fixtures", getAllOwnFixture);
 router.get("/byDate", getAllFixtures);
 router.get("/:id", getFixtureById);

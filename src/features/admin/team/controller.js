@@ -68,7 +68,7 @@ exports.createTeam = async (req, res, next) => {
       data: newTeam
     });
   } catch (error) {
-    error(next);
+    next(error);
   }
 };
 
