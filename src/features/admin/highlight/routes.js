@@ -7,7 +7,7 @@ const {
   updateHighlight,
   deleteHighlight
 } = require("./controller");
-const { validateParams, validateHighlightBody } = require("./validation");
+const { validateParams, validateHighlightBody } = require("./validations");
 
 const upload = multer();
 const router = express.Router();

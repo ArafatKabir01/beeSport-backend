@@ -10,9 +10,9 @@ const logger = require("morgan");
 const config = require("./config");
 const connectToDatabase = require("./database");
 const configureCloudinary = require("./cloudinary");
-const webRouter = require("../src/features/web/route");
+const webRouter = require("../src/features/web/routes");
 const adminRouter = require("../src/routes/adminRouter");
-const adminRouterV2 = require("../src/features/admin/route");
+const adminRouterV2 = require("../src/features/admin/routes");
 
 // Middlewares
 const errorMiddleware = require("../src/middlewares/errorMiddleware");

@@ -1,5 +1,5 @@
 const { getAllLeague, createLeague, updatePointTable, deleteLeague, sortLeague } = require("./controller");
-const { validateCreateLeague, validateSingleLeague } = require("./validation");
+const { validateCreateLeague, validateSingleLeague } = require("./validations");
 
 const router = require("express").Router();
 

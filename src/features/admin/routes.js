@@ -1,9 +1,9 @@
 const router = require("express").Router();
-const fixtureRoutes = require("./fixture/route");
-const teamRoutes = require("./team/route");
-const bannerRoutes = require("./Banner/route");
-const leagueRoutes = require("./league/route");
-const highlightRoutes = require("./highlight/route");
+const fixtureRoutes = require("./fixture/routes");
+const teamRoutes = require("./team/routes");
+const bannerRoutes = require("./banner/route");
+const leagueRoutes = require("./league/routes");
+const highlightRoutes = require("./highlight/routes");
 
 router.use("/fixtures", fixtureRoutes);
 router.use("/teams", teamRoutes);
