@@ -1,19 +1,18 @@
 const router = require("express").Router();
-const fixtureRoutes = require("./fixture/route");
+const fixtureRoutes = require("./fixture/routes");
 const liveMatchRoutes = require("../../routes/web/liveMatchRoutes");
-const teamRoutes = require("./team/route");
-const userRoutes = require("./user/route");
-const newsRoutes = require("./news/route");
-const bannerRoutes = require("./banner/route");
-const { getTopLeagues } = require('../../controllers/web/leagueController');
+const teamRoutes = require("./team/routes");
+const userRoutes = require("./user/routes");
+const newsRoutes = require("./news/routes");
+const leagueRoutes = require("./league/routes");
+const bannerRoutes = require("./banner/routes");
 
 router.use("/auth", userRoutes);
 router.use("/news", newsRoutes);
 router.use("/teams", teamRoutes);
-router.use("/leagues", getTopLeagues);
+router.use("/leagues", leagueRoutes);
 router.use("/fixtures", fixtureRoutes);
 router.use("/live-matches", liveMatchRoutes);
-router.use("/leagues", getTopLeagues);
 router.use("/teams", teamRoutes);
 router.use("/news", newsRoutes);
 router.use("/auth", userRoutes);

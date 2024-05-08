@@ -3,15 +3,9 @@ const League = require("./model");
 
 const getAllLeague = async (req, res, next) => {
   try {
-    const { category } = req.query;
-    const query = {};
-    if (category) {
-      query.category = category;
-    }
-
     const [docs, total] = await Promise.all([
-      League.find(query).sort({ createdAt: "asc" }),
-      League.countDocuments(query)
+      League.find().sort({ createdAt: "asc" }),
+      League.countDocuments()
     ]);
 
     res.status(200).json({
@@ -23,7 +17,9 @@ const getAllLeague = async (req, res, next) => {
       }
     });
   } catch (error) {
-    res.status(500).json({ status: false, message: "Something went wrong!" });
+    console.error(error);
+    next(error);
+    // res.status(500).json({ status: false, message: "Something went wrong!" });
   }
 };
 const createLeague = async (req, res, next) => {
@@ -46,7 +42,7 @@ const createLeague = async (req, res, next) => {
       });
     }
 
-    const League = new League({
+    const league = new League({
       id,
       name,
       image_path,
@@ -55,7 +51,7 @@ const createLeague = async (req, res, next) => {
       currentSeason
     });
 
-    const savedLeague = await League.save();
+    const savedLeague = await league.save();
 
     res.status(201).json({
       status: true,
@@ -96,7 +92,7 @@ const deleteLeague = async (req, res, next) => {
     try {
       const { id } = req.params;
       const deletedLeague = await League.deleteOne({
-        id: id
+        "_id": id
       });
   
       if (!deletedLeague) {

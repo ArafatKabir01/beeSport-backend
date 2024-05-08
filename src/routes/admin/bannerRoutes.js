@@ -5,7 +5,8 @@ const upload = multer();
 
 // intrenal imports
 const { userAuth } = require("../../middlewares/userAuth");
-const Banner = require("../../models/Banner");
+// const Banner = require("../../models/BannerSlider");
+const Banner = {};
 const cloudinaryUpload = require("../../helpers/cloudinaryUpload");
 
 /**

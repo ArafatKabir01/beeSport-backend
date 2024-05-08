@@ -2,6 +2,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("./model");
 const error = require("../../../utils/error");
+const moment = require("moment");
 const {
   generateSalt,
   generatePassword,
@@ -39,13 +40,13 @@ const registerService = async ({ name, email, password }) => {
 
     if (existingUser) {
       // Case 1: User exists, phone unverified, delete the existing user
-      if (existingUser?.email_verified === 0) {
+      if (existingUser?.email_verified === false) {
         await User.deleteOne({ email });
         existingUser = null;
       }
 
       // Case 2: User exists, phone verified, and phone provider
-      if (existingUser?.email_verified === 1) {
+      if (existingUser?.email_verified === true) {
         return { status: false, message: "This Email already exists!" };
       }
 
@@ -96,16 +97,16 @@ const registerService = async ({ name, email, password }) => {
     // Case 5: User registered via social provider
     const accessToken = await generateSignature(
       {
-        phone: newUser.phone
+        email: newUser.email
       },
-      60 * 60 * 24 * 30 // 30 Days
+      60 * 2 // 2 minutes
     );
 
     const refreshToken = await generateSignature(
       {
-        phone: newUser.phone
+        email: newUser.email
       },
-      60 * 60 * 24 * 60 // 30 Days
+      60 * 2 // 2 minutes
     );
 
     const user = exclude(newUser.toObject(), [
@@ -276,11 +277,106 @@ const verifyEmailOtp = async (optInfo) => {
   }
 };
 
+
+const resendOTP = async (userInfo) => {
+  try {
+    const { email, context } = userInfo;
+
+    const existingUser = await User.findOne({ email });
+
+    if (!existingUser) {
+      return { status: false, message: "User not found!" };
+    }
+
+    if (existingUser.email_verified !== false && context === "verify_code") {
+      return { status: false, message: "Email is already verified!" };
+    }
+
+    const otp = generateVerificationCode(6);
+    const hashedOtp = await bcrypt.hash(otp, 10);
+
+    // 2 minutes block time for each request
+    if (!existingUser.resend_otp_block_timestamp) {
+      const time = moment().add(2, "minutes").unix();
+
+      if (context === "verify_code") {
+        await existingUser.updateOne({
+          verify_code: hashedOtp,
+          resend_otp_block_timestamp: time
+        });
+      } else {
+        await existingUser.updateOne({
+          forget_code: hashedOtp,
+          resend_otp_block_timestamp: time
+        });
+      }
+    } else {
+      const currentTime = moment().unix();
+      const isBlocked = moment(currentTime).isBefore(existingUser.resend_otp_block_timestamp);
+
+      if (isBlocked) {
+        return {
+          status: false,
+          message: "Try again after waiting for up to 2 minutes!"
+        };
+      } else {
+        const time = moment().add(2, "minutes").unix();
+
+        if (context === "verify_code") {
+          await existingUser.updateOne({
+            verify_code: hashedOtp,
+            resend_otp_block_timestamp: time
+          });
+        } else {
+          await existingUser.updateOne({
+            forget_code: hashedOtp,
+            resend_otp_block_timestamp: time
+          });
+        }
+      }
+    }
+
+    // Send OTP for email
+    await sendVerificationEmail(email, otp);
+
+    return {
+      status: true,
+      message: "New OTP sent successfully!"
+    };
+
+   
+
+    // // Send OTP
+    // const otpResponse = await sendOTPVerification(email, otp);
+
+    // if (otpResponse === "0") {
+    //   return {
+    //     status: true,
+    //     message: "New OTP sent successfully!"
+    //   };
+    // } else if (otpResponse === "6") {
+    //   return {
+    //     status: false,
+    //     message: "Your are provided wrong email!"
+    //   };
+    // } else {
+    //   return {
+    //     status: false,
+    //     message: "Something went wrong!"
+    //   };
+    // }
+  } catch (error) {
+    console.error("Error in Resend Verification Email:", error);
+    throw new Error("Failed to resend verification email");
+  }
+};
+
 module.exports = {
   findUserByProperty,
   createNewUser,
   findUsers,
   registerService,
   loginService,
-  verifyEmailOtp
+  verifyEmailOtp,
+  resendOTP
 };
