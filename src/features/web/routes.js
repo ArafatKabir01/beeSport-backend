@@ -15,7 +15,6 @@ router.use("/fixtures", fixtureRoutes);
 router.use("/live-matches", liveMatchRoutes);
 router.use("/teams", teamRoutes);
 router.use("/news", newsRoutes);
-router.use("/auth", userRoutes);
 router.use("/banners", bannerRoutes);
 
 module.exports = router;
