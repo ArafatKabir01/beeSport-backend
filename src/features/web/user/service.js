@@ -99,14 +99,14 @@ const registerService = async ({ name, email, password }) => {
       {
         email: newUser.email
       },
-      60 * 2 // 2 minutes
+      60 * 60 * 24 * 30 // 2 minutes
     );
 
     const refreshToken = await generateSignature(
       {
         email: newUser.email
       },
-      60 * 2 // 2 minutes
+      60 * 60 * 24 * 30 // 2 minutes
     );
 
     const user = exclude(newUser.toObject(), [
@@ -157,14 +157,14 @@ const loginService = async ({ email, password }) => {
       if (validPassword) {
         const accessToken = await generateSignature(
           {
-            phone: existingUser.phone
+            email: existingUser.email
           },
           60 * 60 * 24 * 30 // 30 Days
         );
 
         const refreshToken = await generateSignature(
           {
-            phone: existingUser.phone
+            email: existingUser.email
           },
           60 * 60 * 24 * 60 // 60 Days
         );
@@ -371,6 +371,45 @@ const resendOTP = async (userInfo) => {
   }
 };
 
+// Get User Profile
+const getProfile = async (userInfo) => {
+  try {
+    const { email } = userInfo;
+
+    const existingUser = await User.findOne({ email });
+
+    if (!existingUser) {
+      throw new Error("No profile exists!");
+    }
+
+    const userWithoutSensitiveInfo = exclude(existingUser.toObject(), [
+      "_id",
+      "__v",
+      "password",
+      "salt",
+      "verify_code",
+      "forget_code",
+      "createdAt",
+      "updatedAt"
+    ]);
+
+    userWithoutSensitiveInfo.role = "user";
+
+    return {
+      status: true,
+      message: "User profile found!",
+      data: userWithoutSensitiveInfo
+    };
+  } catch (error) {
+    console.error(error);
+    if (error.message === "No Profile") {
+      throw new Error("User profile does not exist");
+    } else {
+      throw new Error("Failed to retrieve user profile");
+    }
+  }
+};
+
 module.exports = {
   findUserByProperty,
   createNewUser,
@@ -378,5 +417,6 @@ module.exports = {
   registerService,
   loginService,
   verifyEmailOtp,
-  resendOTP
+  resendOTP,
+  getProfile,
 };

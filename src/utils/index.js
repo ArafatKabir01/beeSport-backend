@@ -83,7 +83,7 @@ module.exports.validateSignature = async (req) => {
     if (!signature) return false;
     let payload = await jwt.verify(signature.split(" ")[1], process.env.APP_SECRET);
     if (payload.role !== "admin") {
-      let existingUser = await User.findOne({ phone: payload.phone });
+      let existingUser = await User.findOne({ email: payload.email });
       payload = { ...payload, ...(existingUser && { id: existingUser._id }) };
     }
     req.user = payload;

@@ -1,6 +1,6 @@
 const { validationResult } = require("express-validator");
 const { transformErrorsToMap } = require("../../../utils");
-const { registerService, loginService, verifyEmailOtp, resendOTP } = require("./service");
+const { registerService, loginService, verifyEmailOtp, resendOTP, getProfile } = require("./service");
 const { generateVerificationCode } = require("../../../helpers");
 
 exports.registerController = async (req, res, next) => {
@@ -13,17 +13,14 @@ exports.registerController = async (req, res, next) => {
     }
 
     const { name, email, password} = req.body;
-
-    // if (password !== confirmPassword) {
-    //   return res.status(400).json({ status: false, error: "Password and confirm password does't match" });
-    // }
-
     const newUser = await registerService({ name, email, password });
-
     res.status(200).json(newUser);
+
   } catch (error) {
+
     console.error(error);
     next(error);
+    
   }
 };
 
@@ -37,6 +34,7 @@ exports.loginController = async (req, res, next) => {
     }
 
     const { email, password } = req.body;
+
 
     const newUser = await loginService({ email, password });
 
@@ -77,6 +75,17 @@ exports.resendOTPController = async (req, res, next) => {
 
     const data = await resendOTP({ email, context });
 
+    return res.json(data);
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+}
+
+exports.getUserProfile = async (req, res, next) => {
+  try {
+    const { email } = req.user;
+    const data = await getProfile({ email });
     return res.json(data);
   } catch (error) {
     console.error(error);
