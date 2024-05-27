@@ -14,6 +14,7 @@ const fixtureSchema = new Schema(
       image: String
     },
     startingAt: String,
+    starting_at_timestamp: Number,
     matchType: {
       type: String,
       enum: ["hot", "normal"],

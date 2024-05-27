@@ -95,6 +95,7 @@ exports.createSelectedFixtures = async (req, res, next) => {
           image: fixtureResponse?.data?.data?.league?.image_path
         },
         startingAt: fixtureResponse?.data?.data?.starting_at,
+        starting_at_timestamp: fixtureResponse?.data?.data?.starting_at_timestamp,
         matchType: matchData?.is_hot === "0" ? "normal" : "hot",
         status: matchData?.status,
         streaming_sources: [],
