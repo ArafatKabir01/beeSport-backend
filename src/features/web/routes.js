@@ -5,7 +5,7 @@ const teamRoutes = require("./team/routes");
 const userRoutes = require("./user/routes");
 const newsRoutes = require("./news/routes");
 const leagueRoutes = require("./league/routes");
-const bannerRoutes = require("./banner/routes");
+const bannerRoutes = require("./Banner/routes");
 
 router.use("/auth", userRoutes);
 router.use("/news", newsRoutes);
