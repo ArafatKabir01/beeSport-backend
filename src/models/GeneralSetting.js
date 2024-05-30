@@ -36,7 +36,13 @@ const generalSettingSchema = new mongoose.Schema(
     cloudinaryAppSecret: { type: String, default: "" },
     qpsms_appkey: { type: String, default: "" },
     qpsms_secretkey: { type: String, default: "" },
-    allowed_country: [allowedCountrySchema]
+    allowed_country: [allowedCountrySchema],
+    GUEST_POPUP_INTERVAL: { type: Number },
+    GUEST_POPUP_DURATION: { type: Number },
+    GUEST_FREE_WATCH_LIMIT: { type: Number },
+    Login_POPUP_INTERVAL: { type: Number },
+    Login_POPUP_DURATION: { type: Number },
+    Login_FREE_WATCH_LIMIT: { type: Number }
   },
   {
     timestamps: true

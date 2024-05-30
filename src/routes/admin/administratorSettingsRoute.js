@@ -88,7 +88,13 @@ router.post("/update", async (req, res, next) => {
       cloudinaryApiKey,
       cloudinaryAppSecret,
       qpsms_appkey,
-      qpsms_secretkey
+      qpsms_secretkey,
+      GUEST_POPUP_INTERVAL,
+      GUEST_POPUP_DURATION,
+      GUEST_FREE_WATCH_LIMIT,
+      Login_POPUP_INTERVAL,
+      Login_POPUP_DURATION,
+      Login_FREE_WATCH_LIMIT
     } = req.body;
 
     if (generalSettingSchema) {
@@ -128,6 +134,13 @@ router.post("/update", async (req, res, next) => {
       generalSettingSchema.qpsms_appkey = qpsms_appkey || "";
       generalSettingSchema.qpsms_secretkey = qpsms_secretkey || "";
       generalSettingSchema.allowed_country = JSON.parse(allowed_country) || [];
+      generalSettingSchema.GUEST_POPUP_INTERVAL = GUEST_POPUP_INTERVAL;
+      generalSettingSchema.GUEST_POPUP_DURATION = GUEST_POPUP_DURATION;
+      generalSettingSchema.GUEST_FREE_WATCH_LIMIT = GUEST_FREE_WATCH_LIMIT;
+      generalSettingSchema.Login_POPUP_INTERVAL = Login_POPUP_INTERVAL;
+      generalSettingSchema.Login_POPUP_DURATION = Login_POPUP_DURATION;
+      generalSettingSchema.Login_POPUP_DURATION = Login_POPUP_DURATION;
+      generalSettingSchema.Login_FREE_WATCH_LIMIT = Login_FREE_WATCH_LIMIT;
 
       const updatedData = await generalSettingSchema.save();
 
@@ -163,7 +176,13 @@ router.post("/update", async (req, res, next) => {
         cloudinaryRootFolderName,
         cloudinaryCloudName,
         cloudinaryApiKey,
-        cloudinaryAppSecret
+        cloudinaryAppSecret,
+        Login_FREE_WATCH_LIMIT,
+        Login_POPUP_DURATION,
+        Login_POPUP_INTERVAL,
+        GUEST_FREE_WATCH_LIMIT,
+        GUEST_POPUP_DURATION,
+        GUEST_POPUP_INTERVAL
       });
 
       await administrationSettings.save();

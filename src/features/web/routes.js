@@ -6,6 +6,7 @@ const userRoutes = require("./user/routes");
 const newsRoutes = require("./news/routes");
 const leagueRoutes = require("./league/routes");
 const bannerRoutes = require("./banner/routes");
+const { getGeneralSetting } = require("../../controllers/web/generalSettingController");
 
 router.use("/auth", userRoutes);
 router.use("/news", newsRoutes);
@@ -16,5 +17,6 @@ router.use("/live-matches", liveMatchRoutes);
 router.use("/teams", teamRoutes);
 router.use("/news", newsRoutes);
 router.use("/banners", bannerRoutes);
+router.use("/general-settings", getGeneralSetting);
 
 module.exports = router;
