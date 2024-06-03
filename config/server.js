@@ -21,6 +21,7 @@ const getUserIpMiddleware = require("../src/middlewares/getUserIpMiddleware");
 
 // Controllers
 const { sportMonksV3Data } = require("../src/controllers/web/sportMonksV3Controller");
+const getUserIP = require("../src/middlewares/userIp");
 
 const app = express();
 const env = process.env.NODE_ENV || "development";
@@ -39,6 +40,7 @@ async function initializeApp() {
   app.use(cors(config[env].corsOptions));
   app.use(express.json({ limit: "100mb" }));
   app.use(express.urlencoded({ extended: true, limit: "100mb" }));
+  app.use(getUserIP);
 
   // File Access
   app.use("/", express.static(path.join(__dirname, "../public")));

@@ -1,0 +1,54 @@
+const mongoose = require("mongoose");
+
+const allowedCountrySchema = new mongoose.Schema({
+  value: {
+    type: String,
+    required: true
+  },
+  label: {
+    type: String,
+    required: true
+  },
+  mask: {
+    type: String,
+    required: false
+  }
+});
+
+const administratorSettingSchema = new mongoose.Schema(
+  {
+    company_name: { type: String, default: "" },
+    site_title: { type: String, default: "" },
+    terms: { type: String, default: "" },
+    policy: { type: String, default: "" },
+    android_download_link: { type: String, default: "" },
+    ios_download_link: { type: String, default: "" },
+    timezone: { type: Object, default: {} },
+    facebook: { type: String, default: "" },
+    youtube: { type: String, default: "" },
+    instagram: { type: String, default: "" },
+    site_logo: { type: String, default: "" },
+    site_icon: { type: String, default: "" },
+    cloudinaryRootFolderName: { type: String, default: "" },
+    cloudinaryRootFolderName: { type: String, default: "" },
+    cloudinaryCloudName: { type: String, default: "" },
+    cloudinaryApiKey: { type: String, default: "" },
+    cloudinaryAppSecret: { type: String, default: "" },
+    qpsms_appkey: { type: String, default: "" },
+    qpsms_secretkey: { type: String, default: "" },
+    allowed_country: [allowedCountrySchema],
+    GUEST_POPUP_INTERVAL: { type: Number },
+    GUEST_POPUP_DURATION: { type: Number },
+    GUEST_FREE_WATCH_LIMIT: { type: Number },
+    Login_POPUP_INTERVAL: { type: Number },
+    Login_POPUP_DURATION: { type: Number },
+    Login_FREE_WATCH_LIMIT: { type: Number }
+  },
+  {
+    timestamps: true
+  }
+);
+
+const AdministratorSettings = mongoose.model("AdministratorSettings", administratorSettingSchema);
+
+module.exports = AdministratorSettings;
