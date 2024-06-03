@@ -371,6 +371,39 @@ const resendOTP = async (userInfo) => {
   }
 };
 
+
+// Forget Password
+const forgetPassword = async ({ email }) => {
+  try {
+    const existingUser = await User.findOne({ email, email_verified: true});
+
+    if (!existingUser) {
+      return {
+        status: false,
+        message: "Please, provide us your verified email!"
+      };
+    }
+
+    const otp = generateVerificationCode(6);
+    const hashedOtp = await bcrypt.hash(otp, 10);
+
+    // Save Forget Code
+    await existingUser.updateOne({ forget_code: hashedOtp });
+
+    // Send OTP for email
+    await sendVerificationEmail(email, otp);
+
+    return {
+      status: true,
+      message: "OTP sent successfully!"
+    };
+
+  } catch (error) {
+    console.error("Error in forget Password:", error);
+    throw new Error("Failed to forget password!");
+  }
+};
+
 // Get User Profile
 const getProfile = async (userInfo) => {
   try {
@@ -419,4 +452,5 @@ module.exports = {
   verifyEmailOtp,
   resendOTP,
   getProfile,
+  forgetPassword
 };
